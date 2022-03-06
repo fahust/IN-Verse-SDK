@@ -179,23 +179,30 @@ class App {
             if(!this.provider)await this.connectWeb3();
             let signer = await this.provider.getSigner()
             let factoryToken = new ContractFactory(contractToken.abi, contractToken.bytecode, signer);
-            let tokenContract = await factoryToken.deploy(_name, _symbol, _initBaseURI);
-            let factoryAuction = new ContractFactory(contractAuction.abi, contractAuction.bytecode, signer);
-            let auctionContract = await factoryAuction.deploy(tokenContract.address);
-            return this.adminContract.addContract(_name, _symbol, _initBaseURI, tokenContract.address, auctionContract.address).then((result:any)=>{
-                return auctionContract.address;
-            }).cach((error:any)=>{
-                return error;
-            })
+            return factoryToken.deploy(_name, _symbol, _initBaseURI).then((tokenContract:any)=>{
+                let factoryAuction = new ContractFactory(contractAuction.abi, contractAuction.bytecode, signer);
+                return factoryAuction.deploy(tokenContract.address).then((auctionContract)=>{
+                    return this.adminContract.addContract(_name, _symbol, _initBaseURI, tokenContract.address, auctionContract.address).then((result:any)=>{
+                        return {success:auctionContract.address}
+                    }).catch((error:any)=>{
+                        return {error};
+                    })
+                }).catch((error:any)=>{
+                    return {error};
+                });
+            }).catch((error:any)=>{
+                return {error};
+            });
+            
         } catch (error) {
-            return error;
+            return {error};
         }
     }
 
     async updateContract(){
         if(this.connected){
             try {
-                if(!this.provider)await this.connectWeb3();
+                if(!this.provider) await this.connectWeb3();
                 let signer = await this.provider.getSigner()
                 let factoryAuction = new ContractFactory(contractAuction.abi, contractAuction.bytecode, signer);
                 let addressMyToken = await this.contract.getAddressContract();
