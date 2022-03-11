@@ -22,8 +22,8 @@
 
 ## 🧐 About <a name = "about"></a>
 
-La SDK inverse, permet de créer des jetons ERC721 , ERC721A, ERC1155, et de les mêttre en vente dans des enchères ou des ventes direct.
-Chaque jeton reste paramètrable et peut être vendu sur les plateform les plus connues tel que opensea, rarible...
+La SDK inverse, permet de créer des jetons ERC721 , ERC721A, ERC1155, et de les mettre en vente dans des enchères ou des ventes directes.
+Chaque jeton reste paramétrable et peut être vendu sur les plateformes les plus connues telles que opensea, rarible...
 
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
@@ -36,7 +36,7 @@ Il vous faudra obligatoirement vous inscrire sur nos serveurs, vous pourrez le f
 
 ### Prerequisites
 
-Vous avez besoin de node et npm.
+Vous aurez besoin de node et npm.
 
 - [Node JS](https://nodejs.org/en/download/)
 
@@ -46,7 +46,7 @@ Vous avez besoin de node et npm.
 
 ### Installing
 
-L'installation ce fais de façon très simple, ouvrez un terminal dans la racine de votre projet puis copier la ligne suivante
+L'installation se fait de façon très simple, ouvrez un terminal dans la racine de votre projet puis copier la ligne suivante :
 
 ```javascript
 npm i @fahust/test-inverse-react-lib
@@ -60,13 +60,13 @@ npm i @fahust/test-inverse-react-lib
 
 ## 🎈 Usage <a name="usage"></a>
 
-Pour utiliser notre package, vous devrez d'abbord importer la librarie dans vos composant react
+Pour utiliser notre package, vous devrez d'abord importer la librairie dans vos composant react :
 
 ```javascript
 import { InVerseSdk } from '@fahust/test-inverse-react-lib';
 ```
 
-Puis instancier le sdk de la manière suivante 
+Puis instancier le SDK de la manière suivante :
 
 ```javascript
 sdk = new InVerseSdk()
@@ -76,7 +76,7 @@ ___
 
 ### Connection Web3
 Connection vers le wallet de votre choix.
-A la connection si votre wallet n'est pas enregistrer sur nos serveur, elle sera donc immédiatement enregistré.
+À la connections si votre wallet n'est pas enregistrer sur nos serveurs, elle sera donc immédiatement enregistrée.
 
 ```javascript
 sdk.connectWeb3()
@@ -84,8 +84,8 @@ sdk.connectWeb3()
 
 ___
 
-A partir de ce moment vous pourrez renseigner des paramètres utilisateurs en envoyant le tableau suivant.
-Ses informations seront garder sur nos serveurs
+À partir de ce moment, vous pourrez renseigner des paramètres utilisateurs en envoyant le tableau suivant.
+
 
 ```javascript
 //ACCOUNT_OBJECT
@@ -96,48 +96,50 @@ Ses informations seront garder sur nos serveurs
 }
 ```
 
+Ses informations seront gardées sur nos serveurs.
+
 ```javascript
 sdk.updateMyAccount(ACCOUNT_OBJECT);
 ```
 
 ### Création d'un smart contract de market place
 Création d'un smart contract maketplace.sol
-Ce contrat ne nécessitera d'être créer une seul fois mais est obligatoire pour la suite.
-L'addresse du contrat ainsi créer sera définitivement relié à votre compte sur nos serveur.
+Ce contrat nécessitera de n'être créé qu'une seule fois, mais est obligatoire pour la suite.
+L'adresse du contrat ainsi créé sera définitivement reliée à votre compte sur nos serveurs.
 
 ```typescript
-sdk.createMarketPlaceContractBySign(CONTRACT_NAME:string,CONTRACT_SYMBOL:string,BASE_URI:string)
+sdk.createMarketPlaceContractBySign()
 ```
 
 
 ___
 ### Création d'un smart contract de token
 Création d'un smart contract token, parmis les choix suivant ERC721 , ERC721A, ERC1155.
-Ces contrats de tokens pourront être créer autant de fois que vous le voudrez pour ajouter des collections.
-Pour vous permettre des frais de gaz minimum, nous enregistrons les addresse de ses contrats directement sur nos serveurs.
-Attention le nom et le symbol sont immuable, réfléchissez bien avant de créer votre contrat.
-A la création du contrat, des metadatas du token sont enregistré sur ipfs ainsi que sur nos serveurs ainsi que les signatures ECDSA.
+Ces contrats de tokens pourront être créé autant de fois que vous le voudrez pour ajouter des collections.
+Pour vous permettre des frais de gaz minimum, nous enregistrons les adresses de ses contrats directement sur nos serveurs.
+Attention, le nom et le symbole sont immuables, réfléchissez bien avant de créer votre contrat.
+À la création du contrat, des metadatas du token sont enregistré sur ipfs ainsi que sur nos serveurs ainsi que les signatures ECDSA.
 
 ```typescript
 sdk.createTokenContractBySign(CONTRACT_NAME:string,CONTRACT_SYMBOL:string,BASE_URI:string:optional)
 ```
 
 ### Connection Smart Contract
-Connection vers le smart contract créé au préalable par nos utilisateurs.
-Envoi une requête vers nos serveurs pour récupérer l'addresse du smart contract lié a votre addresse de wallet.
+Connections vers le smart contract créé au préalable par nos utilisateurs.
+Envoi une requête vers nos serveurs pour récupérer l'adresse du smart contract lié a votre adresse de wallet.
 
 
 ```javascript
 sdk.getMyAddressMarketPlace()
 ```
 
-Pour récupérer vos address de smart contract de token créer vous devrez appelé cet fonction vers le serveur qui vous renverra un tableau d'addresse
+Pour récupérer vos adresses de smart contract de token créer vous devrez appeler cette fonction vers le serveur qui vous renverra un tableau d'adresse :
 
 ```javascript
-sdk.getMyAddressTokens()
+sdk.getMyAddressTokens().then((res)=>{return ArrayOfAddress = res}).catch((err)=>{return err})
 ```
 
-Pour faire des modifications sur votre marketplace, rajouter des auctions, les paramètrer puis les lié a vos collections de token vous devrez rajouté l'addresse du market place dans la sdk
+Pour faire des modifications sur votre marketplace, rajouter des auctions, les paramétrer puis les liés a vos collections de token vous devrez rajouter l'adresse du market place dans la SDK :
 
 ```javascript
 sdk.setAddressMarketPlace(ADDRESS_MARKET_PLACE)
@@ -175,10 +177,10 @@ sdk.method(mint,"1000000",[10,"10","test"])
 
 ___
 
-### Method static
+## Method static
 Ou bien vous pouvez utiliser les méthodes suivante de façon statique 
 
-## Method TOKEN
+### Method TOKEN
 
 ```javascript
 //Permet un mint de plusieurs token (max 100 pour erc721 et erc1155, max 1000 pour le erc721A)
@@ -186,14 +188,15 @@ sdk.mint(NUMBER_OF_MINT,ADDRESS_CONTRACT_TOKEN)//only owner
 ```
 
 ```javascript
-sdk.getAllNft(ADDRESS_CONTRACT_TOKEN)
+sdk.getAllNft(ADDRESS_CONTRACT_TOKEN).then((res)=>{return ArrayOfNFTs = res}).catch((err)=>{return err})
 ```
 
 ```javascript
 //Utilise ECDSA pour enregistrer les addresse whitelisté vers le serveur
 sdk.addWhitelist(ADDRESS_WHITELISTED,ADDRESS_CONTRACT_TOKEN)
 sdk.removeWhitelist(ADDRESS_WHITELISTED,ADDRESS_CONTRACT_TOKEN)
-sdk.getWhitelist(ADDRESS_WHITELISTED,ADDRESS_CONTRACT_TOKEN)
+sdk.isWhitelisted(ADDRESS_WHITELISTED,ADDRESS_CONTRACT_TOKEN).then((res)=>{return res}).catch((err)=>{return err})
+sdk.getWhitelist(ADDRESS_CONTRACT_TOKEN).then((res)=>{return ArrayOfWhitelisted = res}).catch((err)=>{return err})
 ```
 
 ```javascript
@@ -203,7 +206,7 @@ sdk.sendOffer(WEI_VALUE,ID_TOKEN,ADDRESS_CONTRACT_TOKEN)
 //validé une offre faite (une seul offre peut être validé et vous ne pourrez pas revenir en arrière)
 sdk.validOffer(OFFER_ID,ID_TOKEN,ADDRESS_CONTRACT_TOKEN)//only owner
 sdk.cancelOffer(OFFER_ID,ID_TOKEN,ADDRESS_CONTRACT_TOKEN)//only owner or sender
-sdk.getAllOffer(ID_TOKEN,ADDRESS_CONTRACT_TOKEN)
+sdk.getAllOffer(ID_TOKEN,ADDRESS_CONTRACT_TOKEN).then((res)=>{return ArrayOfOffers = res}).catch((err)=>{return err})
 
 //Une fois une offre validé, permet aux client de recevoir son NFT en échange 
 sdk.buy(WEI_VALUE,ID_TOKEN,ADDRESS_CONTRACT_TOKEN)//only sender
@@ -211,7 +214,7 @@ sdk.buy(WEI_VALUE,ID_TOKEN,ADDRESS_CONTRACT_TOKEN)//only sender
 
 
 
-## Method MARKETPLACE
+### Method MARKETPLACE
 
 
 ```javascript
@@ -235,12 +238,13 @@ La création ou la mise a jour de vente nécessitera un objet de ce type :
 sdk.createAuction(OBJECT_AUCTION)//onlyOwner
 sdk.updateAuction(OBJECT_AUCTION)//onlyOwner
 //démarrer une vente aux enchères
-sdk.startAuction(WEI_BIDDING_VALUE)//onlyOwner
+sdk.startAuction()//onlyOwner
+sdk.getAuction().then((res)=>{return AuctionObject = res}).catch((err)=>{return err})
 //Mettre fin a une vente aux enchères enverra les NFTs aux gagnant et enverra le dépot du gagnant aux royalties
 //Pour une optimisation maximal de frais de gaz nous transférons les datas de l'auction fermé vers nos serveurs
-sdk.closeAuction(WEI_BIDDING_VALUE)//onlyOwner or winner ?
+sdk.closeAuction()//onlyOwner or winner ?
 //Une vente aux enchère ne peut être annulé qu'avant le démarage de cet derniète
-sdk.cancelAuction(WEI_BIDDING_VALUE)//onlyOwner
+sdk.cancelAuction()//onlyOwner
 ```
 
 
