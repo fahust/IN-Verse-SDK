@@ -1,12 +1,12 @@
 {
   "name": "@fahust/test-inverse-react-lib",
-  "version": "0.0.11143",
-  "description": "A simple template for a custom React component library",
+  "version": "0.0.11145",
+  "description": "A complete SDK for inverse usage",
   "scripts": {
     "rollup": "rollup -c"
   },
   "author": "Dell'ova Kevin",
-  "license": "ISC",
+  "license": "INVERSE",
   "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-json": "^4.1.0",
