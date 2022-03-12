@@ -22,13 +22,13 @@
 
 ## 🧐 About <a name = "about"></a>
 
-La SDK inverse, permet de créer des jetons ERC721 , ERC721A, ERC1155, et de les mettre en vente dans des enchères ou des ventes directes.
-Chaque jeton reste paramétrable et peut être vendu sur les plateformes les plus connues telles que opensea, rarible...
+La SDK inverse, permet de créer des jetons <strong>ERC721</strong> , <strong>ERC721A</strong>, <strong>ERC1155</strong>, et de les mettre en vente dans des <strong>enchères</strong> ou des <strong>ventes directes</strong>.
+Chaque jeton reste paramétrable et peut être vendu sur les plateformes les plus connues telles que <strong>opensea</strong>, <strong>rarible</strong>...
 
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
-Il vous faudra obligatoirement vous inscrire sur nos serveurs, vous pourrez le faire depuis notre plateforme ou bien directement sur la sdk
+Il vous faudra obligatoirement vous inscrire sur nos serveurs, vous pourrez le faire depuis notre plateforme ou bien directement sur la SDK
 
 
 
@@ -103,9 +103,9 @@ sdk.updateMyAccount(ACCOUNT_OBJECT);
 ```
 
 ### Création d'un smart contract de market place
-Création d'un smart contract maketplace.sol
-Ce contrat nécessitera de n'être créé qu'une seule fois, mais est obligatoire pour la suite.
-L'adresse du contrat ainsi créé sera définitivement reliée à votre compte sur nos serveurs.
+Création d'un smart contract <strong>maketplace.sol</strong>
+Ce contrat nécessitera de n'être créé qu'<strong>une seule fois</strong>, mais est <strong>obligatoire</strong> pour la suite.
+<strong>L'adresse du contrat ainsi créé sera définitivement reliée à votre compte sur nos serveurs.</strong>
 
 ```typescript
 sdk.createMarketPlaceContractBySign()
@@ -114,10 +114,10 @@ sdk.createMarketPlaceContractBySign()
 
 ___
 ### Création d'un smart contract de token
-Création d'un smart contract token, parmis les choix suivant ERC721 , ERC721A, ERC1155.
-Ces contrats de tokens pourront être créé autant de fois que vous le voudrez pour ajouter des collections.
+Création d'un smart contract token, parmis les choix suivant <strong>ERC721</strong> , <strong>ERC721A</strong>, <strong>ERC1155</strong>.
+Ces contrats de tokens pourront être créé <strong>autant de fois que vous le voudrez</strong> pour ajouter des collections.
 Pour vous permettre des frais de gaz minimum, nous enregistrons les adresses de ses contrats directement sur nos serveurs.
-Attention, le nom et le symbole sont immuables, réfléchissez bien avant de créer votre contrat.
+<strong>Attention, le nom et le symbole sont immuables</strong>, réfléchissez bien avant de créer votre contrat.
 À la création du contrat, des metadatas du token sont enregistré sur ipfs ainsi que sur nos serveurs ainsi que les signatures ECDSA.
 
 ```typescript
@@ -130,7 +130,7 @@ Envoi une requête vers nos serveurs pour récupérer l'adresse du smart contrac
 
 
 ```javascript
-sdk.getMyAddressMarketPlace()
+sdk.getMyAddressMarketPlace().then((res)=>{return ArrayOfAddress = res}).catch((err)=>{return err})
 ```
 
 Pour récupérer vos adresses de smart contract de token créer vous devrez appeler cette fonction vers le serveur qui vous renverra un tableau d'adresse :
@@ -139,7 +139,7 @@ Pour récupérer vos adresses de smart contract de token créer vous devrez appe
 sdk.getMyAddressTokens().then((res)=>{return ArrayOfAddress = res}).catch((err)=>{return err})
 ```
 
-Pour faire des modifications sur votre marketplace, rajouter des auctions, les paramétrer puis les liés a vos collections de token vous devrez rajouter l'adresse du market place dans la SDK :
+<strong><u>Pour faire des modifications sur votre marketplace, rajouter des auctions, les paramétrer puis les liés a vos collections de token, ainsi que permettre vos utilisateurs a effectuer des achats et enchère vous devrez rajouter l'adresse du market place dans la SDK :</u></strong>
 
 ```javascript
 sdk.setAddressMarketPlace(ADDRESS_MARKET_PLACE)
@@ -155,30 +155,31 @@ sdk.setAddressMarketPlace(ADDRESS_MARKET_PLACE)
 
 
 ### Method Dynamic
-Vous pouvez faire appels a toutes les fonctions du smart contract a l'aide de notre composant Method
+Vous pouvez faire appel à toutes les fonctions du smart contract a l'aide de notre composant Method
 
 **Connection au smart contract nécessaire**
 
 ```javascript
-sdk.method(NAME_METHOD,SEND_VALUE,ARGUMENT)
+sdk.method(NAME_METHOD,ADDRESS_METHOD,SEND_VALUE,ARGUMENT)
 ```
 
 **Argument requis :**
-- NAME_METHOD => le nom de la méthode exact du smart contract que vous désirez appeler
+- NAME_METHOD => Le nom de la méthode exact du smart contract que vous désirez appeler
+- ADDRESS_METHOD => L'address exact du smart contract que vous désirez appeler
 **Argument optionel :**
-- SEND_VALUE => La valeur en eth que vous désirez envoyé vers le smart contract
-- ARGUMENT => les arguments nécessaire a la fonction, sous forme de tableau, un élément pour chaque valeur
+- SEND_VALUE => La valeur en eth que vous désirez envoyer vers le smart contract
+- ARGUMENT => Les arguments nécessaires à la fonction, sous forme de tableau, un élément pour chaque valeur.
 
 **Exemple :**
 
 ```javascript
-sdk.method(mint,"1000000",[10,"10","test"])
+sdk.method(mint,"0x0000000000000","1000000",[10,"10","test"])
 ```
 
 ___
 
 ## Method static
-Ou bien vous pouvez utiliser les méthodes suivante de façon statique 
+Ou bien, vous pouvez utiliser les méthodes suivantes de façon statique :
 
 ### Method TOKEN
 
@@ -192,63 +193,76 @@ sdk.getAllNft(ADDRESS_CONTRACT_TOKEN).then((res)=>{return ArrayOfNFTs = res}).ca
 ```
 
 ```javascript
-//Utilise ECDSA pour enregistrer les addresse whitelisté vers le serveur
+//Utilise ECDSA pour enregistrer les adresses whitelisté vers le serveur
 sdk.addWhitelist(ADDRESS_WHITELISTED,ADDRESS_CONTRACT_TOKEN)
 sdk.removeWhitelist(ADDRESS_WHITELISTED,ADDRESS_CONTRACT_TOKEN)
 sdk.isWhitelisted(ADDRESS_WHITELISTED,ADDRESS_CONTRACT_TOKEN).then((res)=>{return res}).catch((err)=>{return err})
 sdk.getWhitelist(ADDRESS_CONTRACT_TOKEN).then((res)=>{return ArrayOfWhitelisted = res}).catch((err)=>{return err})
 ```
 
-```javascript
-//Donne l'opportunité a un client de faire une offre sur un de vos NFT
-sdk.sendOffer(WEI_VALUE,ID_TOKEN,ADDRESS_CONTRACT_TOKEN)
-
-//validé une offre faite (une seul offre peut être validé et vous ne pourrez pas revenir en arrière)
-sdk.validOffer(OFFER_ID,ID_TOKEN,ADDRESS_CONTRACT_TOKEN)//only owner
-sdk.cancelOffer(OFFER_ID,ID_TOKEN,ADDRESS_CONTRACT_TOKEN)//only owner or sender
-sdk.getAllOffer(ID_TOKEN,ADDRESS_CONTRACT_TOKEN).then((res)=>{return ArrayOfOffers = res}).catch((err)=>{return err})
-
-//Une fois une offre validé, permet aux client de recevoir son NFT en échange 
-sdk.buy(WEI_VALUE,ID_TOKEN,ADDRESS_CONTRACT_TOKEN)//only sender
-```
 
 
 
 ### Method MARKETPLACE
+Le marketplace contient des <strong>listes</strong>, qui peuvent être des <strong>ventes d'objet direct</strong>, ou bien des <strong>enchères</strong>.
+Elle peuvent toutes deux contenir un tableau des id token mis en vente ainsi qu'un tableau de prix.
 
+<strong>A la création d'une liste, les tokens listé seront transféré vers votre contract de marketplace.sol</strong>
 
-```javascript
-//BIDDING_VALUE doit être plus élevé que l'offre d'enchère actuel
-sdk.bidding(WEI_BIDDING_VALUE)
-```
+Pour une vente direct les token contenu dans cet liste pourront être acheter un par un.
+Pour une enchère les tokens contenu seront tous vendu a la fin de l'enchère.
+
 
 La création ou la mise a jour de vente nécessitera un objet de ce type :
 ```javascript
-//OBJECT_AUCTION 
+//OBJECT_LIST
 {
   timeAuction:"", //timestamp in seconds
   tokenIds: [], //array of id token
+  tokenPrice: [], //array of price for anyone
+  basePrice: "", //Price of object
   addressOfContratToken: "", //address of contract token
   minimumPrice: "", //price minimum of bid
   royalties: [], //address of royalties
+  typeOfList : 0 ,//direct sell or auction (0 or 1)
 }
 ```
 
 ```javascript
-sdk.createAuction(OBJECT_AUCTION)//onlyOwner
-sdk.updateAuction(OBJECT_AUCTION)//onlyOwner
-//démarrer une vente aux enchères
-sdk.startAuction()//onlyOwner
-sdk.getAuction().then((res)=>{return AuctionObject = res}).catch((err)=>{return err})
-//Mettre fin a une vente aux enchères enverra les NFTs aux gagnant et enverra le dépot du gagnant aux royalties
-//Pour une optimisation maximal de frais de gaz nous transférons les datas de l'auction fermé vers nos serveurs
-sdk.closeAuction()//onlyOwner or winner ?
-//Une vente aux enchère ne peut être annulé qu'avant le démarage de cet derniète
-sdk.cancelAuction()//onlyOwner
+sdk.createList(OBJECT_LIST)//onlyOwner // transfert des tokens
+sdk.updateList(OBJECT_LIST)//onlyOwner
+//Démarrer une vente aux enchères
+sdk.startList()//onlyOwner
+sdk.getList().then((res)=>{return ListObject = res}).catch((err)=>{return err})
+//Mettre fin à une vente aux enchères enverra les NFTs aux gagnants et enverra le dépôt du gagnant aux royalties.
+//Pour une optimisation maximale de frais de gaz, nous transférons les data de la list fermé vers nos serveurs.
+sdk.closeList()//onlyOwner or winner ?
+//Une vente aux enchères ne peut être annulé qu'avant le démarrage de cette dernière.
+sdk.cancelList()//onlyOwner
+```
+
+Vos utilisateurs pourront ensuite intéragir avec vos listes de la façon suivante :
+
+
+### AUCTION
+```javascript
+//BIDDING_VALUE Doit être plus élevé que l'offre d'enchère actuel
+///@dev verify list, started, not finish, bid > msg.value, payable precedent bidder
+sdk.bidding(WEI_BIDDING_VALUE)
+```
+### DIRECT SELL
+```javascript
+//Permet aux clients d'acheter et de recevoir son NFT en échange d'un achat. 
+///@dev Verifiy list, token is listed, no transfered, send money, transfer to buyer, unset of list token and price
+sdk.buy(WEI_VALUE,ID_TOKEN)//only sender
 ```
 
 
+## 🔧 COMPONENTS <a name="usage"></a>
 
+Nous méttons a votre disposition des composants natifs 
+
+-Composant d'affichage d'un token (contient le token id, l'image, l'address owner, le nom et le symbol de la collection)
 
 
 ## ⛏️ Built Using <a name = "built_using"></a>
