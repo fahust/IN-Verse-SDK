@@ -1,6 +1,6 @@
 {
   "name": "@fahust/test-inverse-react-lib",
-  "version": "0.0.11148",
+  "version": "0.0.11149",
   "description": "A complete SDK for inverse usage",
   "scripts": {
     "rollup": "rollup -c"
