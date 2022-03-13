@@ -108,7 +108,7 @@ Ce contrat nécessitera de n'être créé qu'<strong>une seule fois</strong>, ma
 <strong>L'adresse du contrat ainsi créé sera définitivement reliée à votre compte sur nos serveurs.</strong>
 
 ```typescript
-sdk.createMarketPlaceContractBySign()
+sdk.createMarketPlaceContract()
 ```
 
 
@@ -121,7 +121,7 @@ Pour vous permettre des frais de gaz minimum, nous enregistrons les adresses de 
 À la création du contrat, des metadatas du token sont enregistré sur ipfs ainsi que sur nos serveurs ainsi que les signatures ECDSA.
 
 ```typescript
-sdk.createTokenContractBySign(CONTRACT_NAME:string,CONTRACT_SYMBOL:string,BASE_URI:string:optional)
+sdk.createTokenContract(CONTRACT_NAME:string,CONTRACT_SYMBOL:string,BASE_URI:string:optional)
 ```
 
 ### Connection Smart Contract
@@ -142,7 +142,7 @@ sdk.getMyAddressTokens().then((res)=>{return ArrayOfAddress = res}).catch((err)=
 <strong><u>Pour faire des modifications sur votre marketplace, rajouter des auctions, les paramétrer puis les liés a vos collections de token, ainsi que permettre vos utilisateurs a effectuer des achats et enchère vous devrez rajouter l'adresse du market place dans la SDK :</u></strong>
 
 ```javascript
-sdk.setAddressMarketPlace(ADDRESS_MARKET_PLACE)
+sdk.connectAddressMarketPlace(ADDRESS_MARKET_PLACE)
 ```
 
 
@@ -217,7 +217,8 @@ La création ou la mise a jour de vente nécessitera un objet de ce type :
 ```javascript
 //OBJECT_LIST
 {
-  timeAuction:"", //timestamp in seconds
+  startTime:"", //timestamp in seconds
+  endTime:"", //timestamp in seconds
   tokenIds: [], //array of id token
   tokenPrice: [], //array of price for anyone
   basePrice: "", //Price of object
@@ -232,13 +233,16 @@ La création ou la mise a jour de vente nécessitera un objet de ce type :
 sdk.createList(OBJECT_LIST)//onlyOwner // transfert des tokens
 sdk.updateList(OBJECT_LIST)//onlyOwner
 //Démarrer une vente aux enchères
-sdk.startList()//onlyOwner
-sdk.getList().then((res)=>{return ListObject = res}).catch((err)=>{return err})
+sdk.getList(list_id).then((res)=>{return ListObject = res}).catch((err)=>{return err})
+sdk.getLists().then((res)=>{return ListObject = res}).catch((err)=>{return err})
+sdk.getHistoricList(list_id)//Récupère une liste fermé depuis nos serveurs
+sdk.getHistoricLists()//Récupère les liste fermé depuis nos serveurs
+
 //Mettre fin à une vente aux enchères enverra les NFTs aux gagnants et enverra le dépôt du gagnant aux royalties.
 //Pour une optimisation maximale de frais de gaz, nous transférons les data de la list fermé vers nos serveurs.
-sdk.closeList()//onlyOwner or winner ?
+sdk.closeList(list_id)//onlyOwner or winner ?
 //Une vente aux enchères ne peut être annulé qu'avant le démarrage de cette dernière.
-sdk.cancelList()//onlyOwner
+sdk.cancelList(list_id)//onlyOwner
 ```
 
 Vos utilisateurs pourront ensuite intéragir avec vos listes de la façon suivante :
