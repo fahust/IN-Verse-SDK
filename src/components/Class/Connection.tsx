@@ -1,11 +1,7 @@
 
 import Web3Modal from "web3modal";
 import contractMarketPlace from "../ABI/AuctionContract.json";
-import contractToken from "../ABI/TokenContract.json";
-import { ethers , ContractFactory } from 'ethers';
-
-import Factory from "./Factory.js";
-declare let window: any;
+import { ethers } from 'ethers';
 
 const providerOptions = {
     /* See Provider Options Section */

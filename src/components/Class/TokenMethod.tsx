@@ -1,11 +1,4 @@
-
-import Web3Modal from "web3modal";
-import contractMarketPlace from "../ABI/AuctionContract.json";
-import contractToken from "../ABI/TokenContract.json";
-import { ethers , ContractFactory } from 'ethers';
-
 import Connection from "./Connection";
-declare let window: any;
 
 class TokenMethod extends Connection {
 

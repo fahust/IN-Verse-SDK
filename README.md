@@ -218,7 +218,7 @@ La création ou la mise a jour de vente nécessitera un objet de ce type :
 //OBJECT_LIST
 {
   startTime:"", //timestamp in seconds
-  endTime:"", //timestamp in seconds
+  timeAuction:"", //timestamp in seconds
   tokenIds: [], //array of id token
   tokenPrice: [], //array of price for anyone
   basePrice: "", //Price of object

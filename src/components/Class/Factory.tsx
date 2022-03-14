@@ -1,10 +1,9 @@
 
 import contractMarketPlace from "../ABI/AuctionContract.json";
 import contractToken from "../ABI/TokenContract.json";
-import { ethers , ContractFactory } from 'ethers';
+import { ContractFactory } from 'ethers';
 
 import MarketMethod from "./MarketMethod";
-declare let window: any;
 
 class Factory extends MarketMethod {
 
