@@ -25,6 +25,8 @@
 La SDK inverse, permet de créer des jetons <strong>ERC721</strong> , <strong>ERC721A</strong>, <strong>ERC1155</strong>, et de les mettre en vente dans des <strong>enchères</strong> ou des <strong>ventes directes</strong>.
 Chaque jeton reste paramétrable et peut être vendu sur les plateformes les plus connues telles que <strong>opensea</strong>, <strong>rarible</strong>...
 
+Toutes les fonctions faisant appel à une variable API_KEY devront être impérativement appelé depuis votre back (serveur, node js)
+
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
 
@@ -74,12 +76,12 @@ sdk = new InVerseSdk()
 
 ___
 
-### Connection Web3
+### Connection Web3 Brand
 Connection vers le wallet de votre choix.
 À la connections si votre wallet n'est pas enregistrer sur nos serveurs, elle sera donc immédiatement enregistrée.
 
 ```javascript
-sdk.connectWeb3()
+sdk.connectWeb3Brand(NETWORK_ID,API_KEY_INVERSE)
 ```
 
 ___
@@ -102,13 +104,21 @@ Ses informations seront gardées sur nos serveurs.
 sdk.updateMyAccount(ACCOUNT_OBJECT);
 ```
 
+### Connection Web3 user
+Pour faire des enchères ou des achats, vos utilisateur auront besoin de ce connecter
+
+```javascript
+sdk.connectWeb3User(NETWORK_ID)
+```
+
+
 ### Création d'un smart contract de market place
 Création d'un smart contract <strong>maketplace.sol</strong>
 Ce contrat nécessitera de n'être créé qu'<strong>une seule fois</strong>, mais est <strong>obligatoire</strong> pour la suite.
 <strong>L'adresse du contrat ainsi créé sera définitivement reliée à votre compte sur nos serveurs.</strong>
 
 ```typescript
-sdk.createMarketPlaceContract()
+sdk.createMarketPlaceContract(API_KEY_INVERSE)
 ```
 
 
@@ -121,7 +131,7 @@ Pour vous permettre des frais de gaz minimum, nous enregistrons les adresses de 
 À la création du contrat, des metadatas du token sont enregistré sur ipfs ainsi que sur nos serveurs ainsi que les signatures ECDSA.
 
 ```typescript
-sdk.createTokenContract(CONTRACT_NAME:string,CONTRACT_SYMBOL:string,BASE_URI:string:optional)
+sdk.createTokenContract(API_KEY_INVERSE,CONTRACT_NAME:string,CONTRACT_SYMBOL:string,BASE_URI:string:optional)
 ```
 
 ### Connection Smart Contract
@@ -130,13 +140,13 @@ Envoi une requête vers nos serveurs pour récupérer l'adresse du smart contrac
 
 
 ```javascript
-sdk.getMyAddressMarketPlace().then((res)=>{return ArrayOfAddress = res}).catch((err)=>{return err})
+sdk.getMyAddressMarketPlace(API_KEY_INVERSE).then((res)=>{return ArrayOfAddress = res}).catch((err)=>{return err})
 ```
 
 Pour récupérer vos adresses de smart contract de token créer vous devrez appeler cette fonction vers le serveur qui vous renverra un tableau d'adresse :
 
 ```javascript
-sdk.getMyAddressTokens().then((res)=>{return ArrayOfAddress = res}).catch((err)=>{return err})
+sdk.getMyAddressTokens(API_KEY_INVERSE).then((res)=>{return ArrayOfAddress = res}).catch((err)=>{return err})
 ```
 
 <strong><u>Pour faire des modifications sur votre marketplace, rajouter des auctions, les paramétrer puis les liés a vos collections de token, ainsi que permettre vos utilisateurs a effectuer des achats et enchère vous devrez rajouter l'adresse du market place dans la SDK :</u></strong>

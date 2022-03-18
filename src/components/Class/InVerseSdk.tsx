@@ -66,6 +66,20 @@ class App extends Factory {
 
     }
 
+    async listenContracts(){
+        var filter = window.ethereum.filter({fromBlock:0, toBlock:'latest', address: "0x.."});
+        filter.get(function (err:any, transactions:any) {
+            transactions.forEach(function (tx:any) {
+                var txInfo = window.ethereum.getTransaction(tx.transactionHash);
+                /* Here you have
+                txInfo.gas;
+                txInfo.from;
+                txInfo.input;
+                */
+            });
+        });
+    }
+
     /*async updateContract(){
         if(this.connected){
             try {

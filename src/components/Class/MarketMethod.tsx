@@ -7,10 +7,20 @@ class MarketMethod extends TokenMethod {
         super();
     }
 
-
-    /**
-     * STATIC METHOD
-     */
+    async getMyMarketPlace(){
+        let accounts = await this.provider.listAccounts();
+        return fetch("http://localhost:8080/getMyAddressMarketPlace", {
+            method: "GET", //ou POST, PUT, DELETE, etc.
+            headers: {
+                "Content-Type": "text/plain;charset=UTF-8" 
+            },
+            body: accounts[0], 
+        }).then((res)=>{
+            return res;
+        }).catch((err)=>{
+            return err
+        });
+    }
 
     async createList(object_list:Object){
         if(this.connected && this.contract != null){
