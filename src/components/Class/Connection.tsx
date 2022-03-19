@@ -1,36 +1,24 @@
 
 import Web3Modal from "web3modal";
-import contractMarketPlace from "../ABI/AuctionContract.json";
 import { ethers } from 'ethers';
+import contractMarketPlace from "../ABI/MarketPlaceAbi.json";
+import contractToken from "../ABI/INERC721Abi.json";
+import Utils from "./Utils";
 
 const providerOptions = {
     /* See Provider Options Section */
 };
 
-class Connection {
+class Connection extends Utils {
 
-
-    provider: ethers.providers.Web3Provider;
-    signer: ethers.providers.JsonRpcSigner;
-    addressContract: string;
-    contract:ethers.Contract;
-    connected:boolean;
-
-    connectedWeb3:boolean;
 
     constructor(){
-        this.contract;
-        this.provider;
-        this.signer;
-        this.connected = false;
-
-        this.connectedWeb3 = false;
+        super();
     }
-
-    /**
-     * INITIALIZATION
-     */
     
+    /**
+     * Connect to web3 with wallet like MetaMask and other and sign to your website
+     */
     async connectWeb3 () {
         const web3Modal = new Web3Modal({
             network: "mainnet", // optional
@@ -43,6 +31,74 @@ class Connection {
         this.provider = new ethers.providers.Web3Provider(instance);
         this.signer = this.provider.getSigner();
 
+        this.connectedWeb3 = true;
+    }
+    
+    /**
+     * you need to connect to your marketplace for use them
+     * @param addressContract Address of smart contract market place 
+     * @returns 
+     */
+    async connectMarketPlace (addressContract:string) {
+        if(await this.currentChainIsAccepted()){
+            if(this.connectedWeb3 == false) this.connectWeb3()
+            this.contract = new ethers.Contract(addressContract,this.getAbiMarketPlace().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
+            this.connected = true;
+            return "connected";
+        }else{
+            return "not good chain id";
+        }
+    }
+
+    /**
+     * Set user id on SDK for create factory
+     * @param _id Id of user on InVerse server
+     */
+    setUserId(_id:number){
+        this.userId = _id;
+    }
+
+    /**
+     * send a request to inVerse server for connect account, need it for update your data account
+     * @returns 
+     */
+    async connectToInVerseAccount(){
+        return fetch("http://localhost:8080/connectAccount", {
+            method: "POST", //ou POST, PUT, DELETE, etc.
+            headers: {
+                "Content-Type": "text/plain;charset=UTF-8" 
+            },
+            body: JSON.stringify(this.userId), 
+        }).then((res)=>{
+            return res;
+        }).catch((err)=>{
+            return err
+        });
+        
+    }
+    
+    /**
+     * 
+     * @param ObjectAccount {userId,username,password,...}
+     * @returns 
+     */
+    updateMyInVerseAccount(ObjectAccount:Object){
+        return fetch("http://localhost:8080/updateAccount", {
+            method: "POST", //ou POST, PUT, DELETE, etc.
+            headers: {
+                "Content-Type": "text/plain;charset=UTF-8" 
+            },
+            body: JSON.stringify(ObjectAccount), 
+        }).then((res)=>{
+            return res;
+        }).catch((err)=>{
+            return err
+        });
+    }
+
+    async connectWeb3WithNode (privateKey:string) {
+        this.providerNode = await ethers.getDefaultProvider();
+        this.walletWithProvider = await new ethers.Wallet(privateKey, this.providerNode);
         this.connectedWeb3 = true;
     }
 
@@ -128,41 +184,15 @@ class Connection {
             return true;
         }else if(currentChainId==137){
             return true;
+        }else if(currentChainId==1337){
+            return true;
         }else{
             return false;
         }
     }
 
     async currentChainIsAccepted(){
-        return await this.networkInChainAccepted(await this.getIdChainNow())
-    }
-    
-    async connectAddressMarketPlace (addressContract:string) {
-        if(await this.currentChainIsAccepted()){
-            if(this.connectedWeb3 == false) this.connectWeb3()
-            this.contract = new ethers.Contract(addressContract,contractMarketPlace.abi,this.signer);
-            this.connected = true;
-        }
-    }
-    
-    updateMyAccount(ObjectAccount:Object){
-        return fetch("http://localhost:8080/updateAccount", {
-            method: "POST", //ou POST, PUT, DELETE, etc.
-            headers: {
-                "Content-Type": "text/plain;charset=UTF-8" 
-            },
-            body: JSON.stringify(ObjectAccount), 
-        }).then((res)=>{
-            return res;
-        }).catch((err)=>{
-            return err
-        });
-    }
-
-
-
-    setAddressContract(_address:string){
-        this.addressContract = _address;
+        return this.providerNode?true:await this.networkInChainAccepted(await this.getIdChainNow());
     }
 
 }
