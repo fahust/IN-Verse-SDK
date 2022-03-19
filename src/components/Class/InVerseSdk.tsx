@@ -3,12 +3,13 @@ import Factory from "./Factory";
 declare let window: any;
 
 
-class App extends Factory {
+class InVerseSdk extends Factory {
 
 
     constructor(){
         super();
     }
+
 
 
     /**
@@ -30,11 +31,7 @@ class App extends Factory {
                     }else if(argument&&argument.length>0){
                         arg = argument;
                     }
-                    return this.contract[method](...arg).then((result:any)=>{
-                        return result;
-                    }).cach((error:any)=>{
-                        return error;
-                    })
+                    return await this.contract[method](...arg)
                     
                 }
             }else{
@@ -105,4 +102,4 @@ class App extends Factory {
 
 }
 
-export default App ;
+export default InVerseSdk ;
