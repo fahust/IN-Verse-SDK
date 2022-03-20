@@ -89,7 +89,7 @@ class MarketMethod extends TokenMethod {
     }
 
     async getMySignedAddress(){
-        if(this.connected){
+        if(this.connectedWeb3){
             return this.signer.getAddress()
         }else{
             return "Not connected to smart contract"
@@ -101,7 +101,7 @@ class MarketMethod extends TokenMethod {
      * @param list_id 
      * @returns 
      */
-    async closeList(list_id:number){
+    async endAuction(list_id:number){
         if(this.connected && this.contract != null){
             let endAuction = await this.contract.endAuction(list_id)
             fetch("http://localhost:8080/endAuction", {
@@ -225,6 +225,18 @@ class MarketMethod extends TokenMethod {
     async buy(list_id:number,array_number:number,token_id:number,value:string){
         if(this.connected && this.contract != null){
             return await this.contract.buy(list_id,array_number,token_id,{value:value})
+        }else{
+            return "Not connected to smart contract"
+        }
+    }
+
+    /**
+     * Owner can take all money
+     * @returns 
+     */
+    async withdraw(){
+        if(this.connected && this.contract != null){
+            return await this.contract.withdraw();
         }else{
             return "Not connected to smart contract"
         }

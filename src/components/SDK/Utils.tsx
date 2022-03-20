@@ -1,5 +1,3 @@
-
-import Web3Modal from "web3modal";
 import { ethers } from 'ethers';
 import contractMarketPlace from "../ABI/MarketPlaceAbi.json";
 import contractToken from "../ABI/INERC721Abi.json";
@@ -8,7 +6,20 @@ const providerOptions = {
     /* See Provider Options Section */
 };
 
+interface Creators {
+    address:string,
+    share:number
+}
 
+interface Collection {
+    collectionName:string,
+    collectionFamily:String
+}
+
+interface Trait {
+    trait_type:string,
+    value:string
+}
 
 class Utils {
 

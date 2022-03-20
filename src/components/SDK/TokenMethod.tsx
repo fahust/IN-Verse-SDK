@@ -84,15 +84,16 @@ class TokenMethod extends Connection {
             return "Not connected to smart contract"
         }
     }
+    
     /**
      * 
      * @param address_contract_token address of contract where is the token
      * @param token_id token id you want to retrieve
      * @returns an object of metada contains token
      */
-    async getNFT(address_contract_token:string,token_id:number){
+    async getNFTMetada(address_contract_token:string,token_id:number){
         if(this.connected && this.contract != null){
-            return fetch("http://localhost:8080/getNFT", {
+            return fetch("http://localhost:8080/getNFTMetada", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -222,7 +223,7 @@ class TokenMethod extends Connection {
      * @param address address of user you want to give this role
      * @returns 
      */
-    async grantRoleLister(address_contract_token:string,address:string){
+    async grantRoleMinter(address_contract_token:string,address:string){
         if(this.connected && this.contract != null){
             const MINTER_ROLE = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('MINTER_ROLE'));
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
