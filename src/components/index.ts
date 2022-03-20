@@ -1,4 +1,9 @@
 export { default as Connect } from "./REACT/Connect";
+export { default as FormCollections } from "./REACT/FormCollections";
+export { default as FormList } from "./REACT/FormList";
+export { default as FormMetaDataGenerator } from "./REACT/FormMetaDataGenerator";
+export { default as TokenRender } from "./REACT/TokenRender";
+export { default as CollectionRender } from "./REACT/CollectionRender";
 export { default as Mint } from "./REACT/Mint";
 export { default as Method } from "./REACT/Method";
 export { default as InVerseSdk } from "./SDK";
