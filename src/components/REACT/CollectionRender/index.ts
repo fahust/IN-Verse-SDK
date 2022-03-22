@@ -1,1 +1,1 @@
-export { default } from "./Connection";
+export { default } from "./Collection";
