@@ -54,14 +54,14 @@ class Factory extends MarketMethod {
      * @param lazyMint if true, token created only when it saled
      * @returns 
      */
-    async createERC721A(_name:string,_symbol:string,_initBaseURI:string,lazyMint:boolean){
+    async createERC721A(_name:string,_symbol:string,_initBaseURI:string,lazyMint:boolean,maxMint:number){
         let provider = this.provider?this.provider:this.providerNode;
         try {
             if(await this.getMySignedAddress()){
                 if(!provider)await this.connectWeb3();
                 let signer = this.walletWithProvider?this.walletWithProvider:await this.provider.getSigner();
                 let factoryToken = new ContractFactory(contractToken.abi, contractToken.bytecode, signer);
-                return factoryToken.deploy(_name, _symbol, _initBaseURI,lazyMint,this.addressLogger).then((tokenContract:any)=>{
+                return factoryToken.deploy(_name, _symbol, _initBaseURI,lazyMint,this.addressLogger,maxMint).then((tokenContract:any)=>{
                     fetch("http://localhost:8080/addTokenAddress", {
                             method: "POST", //ou POST, PUT, DELETE, etc.
                             headers: {
