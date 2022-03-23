@@ -1,6 +1,3 @@
-import { ethers } from 'ethers';
-declare let window: any;
-
 export interface ObjectProps {
     callback: Function;
     label?: string;

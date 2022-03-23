@@ -8,11 +8,11 @@ class TokenMethod extends Connection {
         super();
     }
     
-    async addWhitelist(address_whitelisted:string,address_contract_token:string){
+    /*async addWhitelist(address_whitelisted:string,address_contract_token:string){
         if(this.connected && this.contract != null){
             return await this.contract.addWhitelist(address_whitelisted,address_contract_token)
         }else{
-            return "Not connected to smart contract"
+            this.connectWeb3()
         }
     }
 
@@ -20,7 +20,7 @@ class TokenMethod extends Connection {
         if(this.connected && this.contract != null){
             return await this.contract.removeWhitelist(address_whitelisted,address_contract_token)
         }else{
-            return "Not connected to smart contract"
+            this.connectWeb3()
         }
     }
 
@@ -28,7 +28,7 @@ class TokenMethod extends Connection {
         if(this.connected && this.contract != null){
             return await this.contract.isWhitelisted(address_whitelisted,address_contract_token)
         }else{
-            return "Not connected to smart contract"
+            this.connectWeb3()
         }
     }
 
@@ -36,29 +36,29 @@ class TokenMethod extends Connection {
         if(this.connected && this.contract != null){
             return await this.contract.getWhitelist(address_contract_token)
         }else{
-            return "Not connected to smart contract"
+            this.connectWeb3()
         }
-    }
+    }*/
 
     /**
      * 
      * @returns An array of address collection
      */
     async getMyCollections(){
-        if(this.connected && this.contract != null){
+        if(this.connectedWeb3){
             return fetch("http://localhost:8080/getMyCollections", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
                 },
-                body: JSON.stringify({userId:this.userId}), 
+                body: JSON.stringify({myAddress:this.getMySignedAddress()}), 
             }).then((res)=>{
                 return res;
             }).catch((err)=>{
                 return err
             });
         }else{
-            return "Not connected to smart contract"
+            this.connectWeb3()
         }
     }
 
@@ -68,21 +68,17 @@ class TokenMethod extends Connection {
      * @returns return an array of metadata collection (token) from API
      */
     async getCollection(address_contract_token:string){
-        if(this.connected && this.contract != null){
-            return fetch("http://localhost:8080/getCollection", {
-                method: "POST", //ou POST, PUT, DELETE, etc.
-                headers: {
-                "Content-Type": "text/plain;charset=UTF-8" 
-                },
-                body: JSON.stringify({address_contract_token:address_contract_token}), 
-            }).then((res)=>{
-                return res;
-            }).catch((err)=>{
-                return err
-            });
-        }else{
-            return "Not connected to smart contract"
-        }
+        return fetch("http://localhost:8080/getCollection", {
+            method: "POST", //ou POST, PUT, DELETE, etc.
+            headers: {
+            "Content-Type": "text/plain;charset=UTF-8" 
+            },
+            body: JSON.stringify({address_contract_token:address_contract_token}), 
+        }).then((res)=>{
+            return res;
+        }).catch((err)=>{
+            return err
+        });
     }
     
     /**
@@ -92,21 +88,17 @@ class TokenMethod extends Connection {
      * @returns an object of metada contains token
      */
     async getNFTMetada(address_contract_token:string,token_id:number){
-        if(this.connected && this.contract != null){
-            return fetch("http://localhost:8080/getNFTMetada", {
-                method: "POST", //ou POST, PUT, DELETE, etc.
-                headers: {
-                "Content-Type": "text/plain;charset=UTF-8" 
-                },
-                body: JSON.stringify({address_contract_token:address_contract_token,token_id:token_id}), 
-            }).then((res)=>{
-                return res;
-            }).catch((err)=>{
-                return err
-            });
-        }else{
-            return "Not connected to smart contract"
-        }
+        return fetch("http://localhost:8080/getNFTMetada", {
+            method: "POST", //ou POST, PUT, DELETE, etc.
+            headers: {
+            "Content-Type": "text/plain;charset=UTF-8" 
+            },
+            body: JSON.stringify({address_contract_token:address_contract_token,token_id:token_id}), 
+        }).then((res)=>{
+            return res;
+        }).catch((err)=>{
+            return err
+        });
     }
 
     /**
@@ -116,7 +108,7 @@ class TokenMethod extends Connection {
      * @returns 
      */
     async mint(address_contract_token:string,number_to_mint:number){
-        if(this.connected && this.contract != null){
+        if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.mint(number_to_mint)
             fetch("http://localhost:8080/mint", {
@@ -124,7 +116,7 @@ class TokenMethod extends Connection {
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
                 },
-                body: JSON.stringify({addressTokenContract:address_contract_token,userId:this.userId,number_to_mint:number_to_mint}), 
+                body: JSON.stringify({addressTokenContract:address_contract_token,myAddress:this.getMySignedAddress(),number_to_mint:number_to_mint}), 
             }).then((res)=>{
                 return res;
             }).catch((err)=>{
@@ -132,7 +124,7 @@ class TokenMethod extends Connection {
             });
             return result;
         }else{
-            return "Not connected to smart contract"
+            this.connectWeb3()
         }
     }
 
@@ -143,7 +135,7 @@ class TokenMethod extends Connection {
      * @returns 
      */
     async setContractURI(address_contract_token:string,uri:string){
-        if(this.connected && this.contract != null){
+        if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.setContractURI(uri)
             fetch("http://localhost:8080/setContractURI", {
@@ -151,7 +143,7 @@ class TokenMethod extends Connection {
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
                 },
-                body: JSON.stringify({addressTokenContract:address_contract_token,userId:this.userId,uri:uri}), 
+                body: JSON.stringify({addressTokenContract:address_contract_token,myAddress:this.getMySignedAddress(),uri:uri}), 
             }).then((res)=>{
                 return res;
             }).catch((err)=>{
@@ -159,7 +151,7 @@ class TokenMethod extends Connection {
             });
             return result;
         }else{
-            return "Not connected to smart contract"
+            this.connectWeb3()
         }
     }
 
@@ -170,7 +162,7 @@ class TokenMethod extends Connection {
      * @returns 
      */
     async setBaseURI(address_contract_token:string,uri:string){
-        if(this.connected && this.contract != null){
+        if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.setBaseURI(uri)
             fetch("http://localhost:8080/setBaseURI", {
@@ -178,7 +170,7 @@ class TokenMethod extends Connection {
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
                 },
-                body: JSON.stringify({addressTokenContract:address_contract_token,userId:this.userId,uri:uri}), 
+                body: JSON.stringify({addressTokenContract:address_contract_token,myAddress:this.getMySignedAddress(),uri:uri}), 
             }).then((res)=>{
                 return res;
             }).catch((err)=>{
@@ -186,7 +178,7 @@ class TokenMethod extends Connection {
             });
             return result;
         }else{
-            return "Not connected to smart contract"
+            this.connectWeb3()
         }
     }
 
@@ -197,7 +189,7 @@ class TokenMethod extends Connection {
      * @returns 
      */
     async burn(address_contract_token:string,token_id:string){
-        if(this.connected && this.contract != null){
+        if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.burn(token_id)
             fetch("http://localhost:8080/burn", {
@@ -205,7 +197,7 @@ class TokenMethod extends Connection {
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
                 },
-                body: JSON.stringify({addressTokenContract:address_contract_token,userId:this.userId,token_id:token_id}), 
+                body: JSON.stringify({addressTokenContract:address_contract_token,myAddress:this.getMySignedAddress(),token_id:token_id}), 
             }).then((res)=>{
                 return res;
             }).catch((err)=>{
@@ -213,7 +205,7 @@ class TokenMethod extends Connection {
             });
             return result;
         }else{
-            return "Not connected to smart contract"
+            this.connectWeb3()
         }
     }
 
@@ -224,12 +216,12 @@ class TokenMethod extends Connection {
      * @returns 
      */
     async grantRoleMinter(address_contract_token:string,address:string){
-        if(this.connected && this.contract != null){
+        if(this.connectedWeb3){
             const MINTER_ROLE = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('MINTER_ROLE'));
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             return await tokenContract.grantRole(MINTER_ROLE,address)
         }else{
-            return "Not connected to smart contract"
+            this.connectWeb3()
         }
     }
     
@@ -240,12 +232,12 @@ class TokenMethod extends Connection {
      * @returns 
      */
     async grantRoleBurner(address_contract_token:string,address:string){
-        if(this.connected && this.contract != null){
+        if(this.connectedWeb3){
             const BURNER_ROLE = ethers.utils.keccak256(ethers.utils.toUtf8Bytes('BURNER_ROLE'));
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             return await tokenContract.grantRole(BURNER_ROLE,address)
         }else{
-            return "Not connected to smart contract"
+            this.connectWeb3()
         }
     }
 

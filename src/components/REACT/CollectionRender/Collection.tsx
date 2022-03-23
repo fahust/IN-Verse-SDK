@@ -14,16 +14,16 @@ export interface ObjectProps {
 
 function App(props: ObjectProps) {
 
-    props.SDK.getCollection(props.addressCollection)
+    let collection = props.SDK.getCollection(props.addressCollection)
 
     return (
         <div>
             <Card style={{ width: props.width?props.width:'18rem' }}>
-                <Card.Img variant="top" src={props.uri} />
+                <Card.Img variant="top" src={collection.uri} />
                 <Card.Body>
-                    <Card.Title>{props.title}</Card.Title>
+                    <Card.Title>{collection.title}</Card.Title>
                     <Card.Text>
-                    {props.description}
+                    {collection.description}
                     </Card.Text>
                 </Card.Body>
             </Card>

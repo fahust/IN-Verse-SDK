@@ -1,5 +1,6 @@
 
 import Factory from "./Factory";
+import { ethers } from 'ethers';
 declare let window: any;
 
 
@@ -16,9 +17,10 @@ class InVerseSdk extends Factory {
      * DYNAMIC METHOD
      */
 
-    async method(method:string,value?:string,argument?:Array<string|BigInteger|Number|Object>){
+    async method(address_market:string,method:string,value?:string,argument?:Array<string|BigInteger|Number|Object>){
         try{
-            if(this.connected && this.contract != null){
+            if(this.connectedWeb3 == true){
+                let contract = new ethers.Contract(address_market,this.getAbiMarketPlace().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
                 const {ethereum} = window;
                 if(ethereum){
                     
@@ -31,7 +33,7 @@ class InVerseSdk extends Factory {
                     }else if(argument&&argument.length>0){
                         arg = argument;
                     }
-                    return await this.contract[method](...arg)
+                    return await contract[method](...arg)
                     
                 }
             }else{

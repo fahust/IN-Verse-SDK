@@ -31,6 +31,8 @@ class Connection extends Utils {
         this.provider = new ethers.providers.Web3Provider(instance);
         this.signer = this.provider.getSigner();
 
+        this.contractLogger = new ethers.Contract(this.addressLogger,this.getAbiMarketPlace().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
+
         this.connectedWeb3 = true;
     }
     
@@ -39,7 +41,7 @@ class Connection extends Utils {
      * @param addressContract Address of smart contract market place 
      * @returns 
      */
-    async connectMarketPlace (addressContract:string) {
+    /*async connectMarketPlace (addressContract:string) {
         if(await this.currentChainIsAccepted()){
             if(this.connectedWeb3 == false) this.connectWeb3()
             this.contract = new ethers.Contract(addressContract,this.getAbiMarketPlace().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
@@ -48,7 +50,7 @@ class Connection extends Utils {
         }else{
             return "not good chain id";
         }
-    }
+    }*/
 
     /**
      * Set user id on SDK for create factory
@@ -68,7 +70,7 @@ class Connection extends Utils {
             headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
             },
-            body: JSON.stringify(this.userId), 
+            body: JSON.stringify(this.getMySignedAddress()), 
         }).then((res)=>{
             return res;
         }).catch((err)=>{
@@ -79,7 +81,7 @@ class Connection extends Utils {
     
     /**
      * 
-     * @param ObjectAccount {userId,username,password,...}
+     * @param ObjectAccount {myaddress,username,password,...}
      * @returns 
      */
     updateMyInVerseAccount(ObjectAccount:Object){
