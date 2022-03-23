@@ -18,17 +18,17 @@ class Factory extends MarketMethod {
     async createMarketPlaceContract(){
         let provider = this.provider?this.provider:this.providerNode;
         try {
-            if(this.userId){
+            if(await this.getMySignedAddress()){
                 if(!provider)await this.connectWeb3();
                 let signer = this.walletWithProvider?this.walletWithProvider:await this.provider.getSigner();
                 let factoryAuction = new ContractFactory(contractMarketPlace.abi, contractMarketPlace.bytecode, signer);
                 return factoryAuction.deploy(this.addressLogger).then((auctionContract)=>{
-                    fetch("http://localhost:8080/setAuctionAddress", {
+                    fetch("http://localhost:8080/addMarketPlaceAddress", {
                         method: "POST", //ou POST, PUT, DELETE, etc.
                         headers: {
                         "Content-Type": "text/plain;charset=UTF-8" 
                         },
-                        body: JSON.stringify({addressAuctionContract:auctionContract.address,userId:this.userId}), 
+                        body: JSON.stringify({addressAuctionContract:auctionContract.address,myAddress:this.getMySignedAddress()}), 
                     }).then((res)=>{
                         return res;
                     }).catch((err)=>{
@@ -57,7 +57,7 @@ class Factory extends MarketMethod {
     async createERC721A(_name:string,_symbol:string,_initBaseURI:string,lazyMint:boolean){
         let provider = this.provider?this.provider:this.providerNode;
         try {
-            if(this.userId){
+            if(await this.getMySignedAddress()){
                 if(!provider)await this.connectWeb3();
                 let signer = this.walletWithProvider?this.walletWithProvider:await this.provider.getSigner();
                 let factoryToken = new ContractFactory(contractToken.abi, contractToken.bytecode, signer);
@@ -67,7 +67,7 @@ class Factory extends MarketMethod {
                             headers: {
                             "Content-Type": "text/plain;charset=UTF-8" 
                             },
-                            body: JSON.stringify({addressTokenContract:tokenContract.address,userId:this.userId}), 
+                            body: JSON.stringify({addressTokenContract:tokenContract.address,myAddress:this.getMySignedAddress()}), 
                         }).then((res)=>{
                             return res;
                         }).catch((err)=>{
