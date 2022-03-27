@@ -1,40 +1,65 @@
-import {  Button, Form, Container, Row , Col  } from 'react-bootstrap';
+import {  Button, Form, Container, Row , Col, Card  } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from "react";
+import ImageUploading from 'react-images-uploading';
+import Collection from "../../SDK/Interface/Collection";
 
 export interface ObjectProps {
     callback: Function;
     label?: string;
     style?: React.CSSProperties;
     SDK:any;
-
-    Blockchain:string;
-    Datas:string;
-    Name:string;
-    Symbole:string;
-    Amount:number;
-    Minter:string;
-    Pauser:string;
-    Burner:string;
-    Description:string;
-    Lazy:boolean;
+    collection?:Collection;
+    
 }
 
 function App(props: ObjectProps) {
-    const [Blockchain, setBlockchain] = useState(props.Blockchain);
-    const [Datas, setDatas] = useState(props.Datas);
-    const [Name, setName] = useState(props.Name);
-    const [Symbole, setSymbole] = useState(props.Symbole);
-    const [Amount, setAmount] = useState(props.Amount);
-    const [Minter, setMinter] = useState(props.Minter);
-    const [Pauser, setPauser] = useState(props.Pauser);
-    const [Burner, setBurner] = useState(props.Burner);
-    const [Description, setDescription] = useState(props.Description);
-    const [Lazy, setLazy] = useState(props.Lazy);
+    const [Blockchain, setBlockchain] = useState(props.collection?.Blockchain);
+    const [Datas, setDatas] = useState(props.collection?.Datas);
+    const [Name, setName] = useState(props.collection?.Name);
+    const [Symbole, setSymbole] = useState(props.collection?.Symbole);
+    const [Amount, setAmount] = useState(props.collection?.Amount);
+    const [Minter, setMinter] = useState(props.collection?.Minter);
+    const [Pauser, setPauser] = useState(props.collection?.Pauser);
+    const [Burner, setBurner] = useState(props.collection?.Burner);
+    const [Description, setDescription] = useState(props.collection?.Description);
+    const [Lazy, setLazy] = useState(props.collection?.Lazy);
+    const [Image, setImage] = useState(props.collection?.Image);
+    
+    const [External_link, setExternalLink] = useState(props.collection?.External_link);
+    const [Seller_fee_basis_points, setSellerFeeBasisPoints] = useState(props.collection?.Seller_fee_basis_points);
+    const [Fee_recipient, setRecipient] = useState(props.collection?.Fee_recipient);
+
+    
+    const [images, setImages] = React.useState([]);
+    const onChange = (imageList:any, addUpdateIndex:any) => {
+        // data for submit
+        console.log(imageList, addUpdateIndex);
+        setImages(imageList);
+    };
 
     const createCollection = async (props: ObjectProps) => {
         try {
-            props.callback(props.SDK.createERC721A(Name,Symbole,"",Lazy));
+            //send image to our server, retrieve uri of image and send into two next function
+            let metadataPlatform = props.SDK.platformGenerator(Name,Description,Image,External_link,Seller_fee_basis_points,Fee_recipient);
+            let collectionDatas:Collection;
+            collectionDatas={
+                Blockchain:Blockchain,
+                Datas:Datas,
+                Name:Name,
+                Symbole:Symbole,
+                Amount:Amount,
+                Minter:Minter,
+                Pauser:Pauser,
+                Burner:Burner,
+                Description:Description,
+                Lazy:Lazy,
+                Image:Image,
+                External_link:External_link,
+                Seller_fee_basis_points:Seller_fee_basis_points,
+                Fee_recipient:Fee_recipient
+            }
+            props.callback(props.SDK.createERC721A(Name,Symbole,"",Lazy,Amount,metadataPlatform,collectionDatas));
         } catch (error) {
             props.callback(error)
         }
@@ -47,6 +72,37 @@ function App(props: ObjectProps) {
             <Container>
                 <h1>Complete informations</h1>
                 <p>Specify the main characteristics of your collection. These datas will help to construct your NFT smart contract and define the high-level characteristics of your collection</p>
+
+                <ImageUploading
+                    multiple
+                    value={images}
+                    onChange={onChange}
+                    maxNumber={1}
+                    dataURLKey="data_url"
+                >
+                    {({
+                    imageList,
+                    onImageUpload,
+                    onImageRemoveAll,
+                    onImageUpdate,
+                    onImageRemove,
+                    isDragging,
+                    dragProps,
+                    }) => (
+                    // write your building UI
+                    <Card style={{ width:'200px',height:'200px' }}  onClick={() => onImageUpdate(0)}>
+                        {imageList.map((image, index) => (
+                        <div key={index} className="image-item">
+                            <img onClick={() => onImageUpdate(0)} src={image['data_url']} alt="" width="200" />
+                            <div className="image-item__btn-wrapper">
+                            </div>
+                        </div>
+                        ))}
+                    </Card>
+                    )}
+                </ImageUploading>
+
+
                 <Row>
                     <Col>
                         <Form.Label>Blockchain *</Form.Label>
@@ -109,6 +165,28 @@ function App(props: ObjectProps) {
                         <Form.Group controlId="formMinter">
                             <Form.Label>Burner</Form.Label>
                             <Form.Control placeholder="0x0..." value={Burner} onChange={e => setBurner(e.target.value)}/>
+                        </Form.Group>
+                    </Col>
+                </Row>
+
+                
+                <Row style={{marginTop:20}}>
+                    <Col>
+                        <Form.Group controlId="formMinter">
+                            <Form.Label>External Link</Form.Label>
+                            <Form.Control  placeholder="https://openseacreatures.io" value={Minter} onChange={e => setExternalLink(e.target.value)}/>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="formMinter">
+                            <Form.Label>Seller fee basis points</Form.Label>
+                            <Form.Control placeholder="100, # Indicates a 1% seller fee" value={Pauser} onChange={e => setSellerFeeBasisPoints(e.target.value)}/>
+                        </Form.Group>
+                    </Col>
+                    <Col>
+                        <Form.Group controlId="formMinter">
+                            <Form.Label>Recipient</Form.Label>
+                            <Form.Control placeholder="0x0..." value={Burner} onChange={e => setRecipient(e.target.value)}/>
                         </Form.Group>
                     </Col>
                 </Row>

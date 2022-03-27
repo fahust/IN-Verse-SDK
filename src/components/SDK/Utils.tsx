@@ -2,6 +2,7 @@
 import contractMarketPlace from "../ABI/MarketPlaceAbi.json";
 import contractToken from "../ABI/INERC721Abi.json";
 import Analytics from './Analytics';
+import { ethers } from 'ethers';
 
 const providerOptions = {
     /* See Provider Options Section */
@@ -22,10 +23,37 @@ interface Trait {
     value:string
 }
 
-class Utils extends Analytics {
+class Utils { 
+    
+    provider: ethers.providers.Web3Provider;
+    signer: ethers.providers.JsonRpcSigner;
+    addressContract: string;
+    contract:ethers.Contract;
+    contractLogger:ethers.Contract;
+    connected:boolean;
+    connectedWeb3:boolean;
+
+    providerNode: ethers.providers.BaseProvider
+    walletWithProvider:ethers.Wallet;
+    userId:number;
+
+    addressLogger:string;
+    serverUrl:string;
 
     constructor(){
-        super();
+        this.contract;
+        this.contractLogger;
+        this.provider;
+        this.signer;
+        this.connected = false;
+
+        this.connectedWeb3 = false;
+
+        this.providerNode;
+        this.walletWithProvider;
+        this.userId;
+        this.addressLogger = "0x5544C8c946dD7157adE750A4E3F3115a4975ec5a";
+        this.serverUrl = "http://localhost:8080/";
     }
 
     setAddressContract(_address:string){
