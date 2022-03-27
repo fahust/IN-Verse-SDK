@@ -100,6 +100,26 @@ class TokenMethod extends Connection {
             return err
         });
     }
+    
+    /**
+     * 
+     * @param address_contract_token address of contract where is the token
+     * @param token_id token id you want to retrieve
+     * @returns an array object of metada contains token
+     */
+    async getNFTSMetadas(address_contract_token:string){
+        return fetch(this.serverUrl+"getNFTSMetadas", {
+            method: "POST", //ou POST, PUT, DELETE, etc.
+            headers: {
+            "Content-Type": "text/plain;charset=UTF-8" 
+            },
+            body: JSON.stringify({address_contract_token:address_contract_token}), 
+        }).then((res)=>{
+            return res;
+        }).catch((err)=>{
+            return err
+        });
+    }
 
     /**
      * Can't be call if contrat is lazy mint

@@ -2,8 +2,8 @@ import {  Button, Form, Container, Row , Col, Card , Badge } from 'react-bootstr
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState } from "react";
 import ImageUploading from 'react-images-uploading';
-import Creators from "../../SDK/Interface/Creators";
-import Metadatas from "../../SDK/Interface/MetaTokens";
+import Creators from "../../../SDK/Interface/Creators";
+import Metadatas from "../../../SDK/Interface/MetaTokens";
 
 export interface ObjectProps {
     callback: Function;
