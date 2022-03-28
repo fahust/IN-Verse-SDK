@@ -1,5 +1,5 @@
 
-//import Web3Modal from "web3modal";
+import Web3Modal from "web3modal";
 import { ethers } from 'ethers';
 import Analytics from "./Analytics";
 import Fetch from './Fetch';
@@ -21,15 +21,15 @@ class Connection extends Analytics {
      * Connect to web3 with wallet like MetaMask and other and sign to your website
      */
     async connectWeb3 () {
-        /*const web3Modal = new Web3Modal({
+        const web3Modal = new Web3Modal({
             network: "mainnet", // optional
             cacheProvider: true, // optional
             providerOptions // required
         });
         
-        const instance = await web3Modal.connect();*/
+        const instance = await web3Modal.connect();
         
-        this.provider = new ethers.providers.Web3Provider(window.ethereum/*instance*/);
+        this.provider = new ethers.providers.Web3Provider(instance);
         this.signer = this.provider.getSigner();
 
         this.contractLogger = new ethers.Contract(this.addressLogger,this.getAbiMarketPlace().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
