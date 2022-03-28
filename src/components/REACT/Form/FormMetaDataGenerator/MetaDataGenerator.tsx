@@ -158,7 +158,7 @@ function App(props: ObjectProps) {
                 <button onClick={()=>setArrayCreator([ ...ArrayCreator!,newCreator ])} style={{marginTop:30,marginBottom:30}}>Add creator</button>
 
                 {
-                    ArrayCreator!.map((creator,key)=>{
+                    ArrayCreator?ArrayCreator!.map((creator,key)=>{
                         return <Row key={key} style={{marginTop:20}}>
                         <Col>
                             <Form.Group controlId="formAddress">
@@ -175,7 +175,7 @@ function App(props: ObjectProps) {
                         <Col><Badge onClick={()=>{deleteCreator(key)}} bg="danger">Delete</Badge>
                         </Col>
                     </Row>
-                    })
+                    }):<></>
                 }
 
                 <Row>
@@ -191,7 +191,7 @@ function App(props: ObjectProps) {
                 </Row>
 
                 {
-                    Object.keys(ArrayTrait).map((traitType,key)=>{
+                    ArrayTrait?Object.keys(ArrayTrait).map((traitType,key)=>{
                         return <div key={traitType} style={{border: '1px solid rgba(0, 0, 0, 0.3)', padding:10, margin:10 }}>
                             Type : {traitType}
                             <Badge onClick={()=>{deleteTraitType(traitType)}} bg="danger">Delete {traitType}</Badge>
@@ -225,7 +225,7 @@ function App(props: ObjectProps) {
                                 })}
                             </div>
                         </div>
-                    })
+                    }):<></>
                 }
                 
 

@@ -1,5 +1,4 @@
-import {  Button, Form, Container, Row , Col, Card  } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import {  Button, Form, Row , Col, Card  } from 'react-bootstrap';
 import React, { useState } from "react";
 import ImageUploading from 'react-images-uploading';
 import Collection from "../../../SDK/Interface/Collection";
