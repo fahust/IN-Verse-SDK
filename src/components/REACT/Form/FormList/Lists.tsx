@@ -16,7 +16,7 @@ function App(props: ObjectProps) {
         
     }
 
-    return (
+    return ( 
         <div>
             <button style={props.style} onClick={()=>CheckWalletIsConnected(props)}>{props.label?props.label:"Connect"}</button>
         </div>

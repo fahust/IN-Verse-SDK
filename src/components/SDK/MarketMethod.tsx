@@ -1,6 +1,6 @@
 import TokenMethod from "./TokenMethod";
 import { ethers } from 'ethers';
-import List from "./List";
+import List from "./Interface/List";
 
 
 class MarketMethod extends TokenMethod {
@@ -14,7 +14,7 @@ class MarketMethod extends TokenMethod {
      * @returns returns array of marketplace addresses created previously
      */
     async getMyMarketPlaces(){
-        return fetch("http://localhost:8080/getMyMarketPlaces", {
+        return fetch(this.serverUrl+"getMyMarketPlaces", {
             method: "GET", //ou POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -36,7 +36,7 @@ class MarketMethod extends TokenMethod {
         if(this.connectedWeb3 == true){
             let contract = new ethers.Contract(address_market,this.getAbiMarketPlace().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let createList = await contract.createList(list)
-            fetch("http://localhost:8080/createList", {
+            fetch(this.serverUrl+"createList", {
                 method: "GET", //ou POST, PUT, DELETE, etc.
                 headers: {
                     "Content-Type": "text/plain;charset=UTF-8" 
@@ -62,7 +62,7 @@ class MarketMethod extends TokenMethod {
         if(this.connectedWeb3 == true){
             let contract = new ethers.Contract(address_market,this.getAbiMarketPlace().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let updateList = await contract.updateList(list)
-            fetch("http://localhost:8080/updateList", {
+            fetch(this.serverUrl+"updateList", {
                 method: "GET", //ou POST, PUT, DELETE, etc.
                 headers: {
                     "Content-Type": "text/plain;charset=UTF-8" 
@@ -102,7 +102,7 @@ class MarketMethod extends TokenMethod {
         if(this.connectedWeb3 == true){
             let contract = new ethers.Contract(address_market,this.getAbiMarketPlace().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let endAuction = await contract.endAuction(list_id)
-            fetch("http://localhost:8080/endAuction", {
+            fetch(this.serverUrl+"endAuction", {
                 method: "GET", //ou POST, PUT, DELETE, etc.
                 headers: {
                     "Content-Type": "text/plain;charset=UTF-8" 
@@ -153,7 +153,7 @@ class MarketMethod extends TokenMethod {
      * @returns 
      */
     async getLists(address_market:string){
-        return fetch("http://localhost:8080/getLists", {
+        return fetch(this.serverUrl+"getLists", {
             method: "GET", //ou POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -172,7 +172,7 @@ class MarketMethod extends TokenMethod {
      * @returns 
      */
     async getHistoricLists(address_market:string){
-        return fetch("http://localhost:8080/historicLists", {
+        return fetch(this.serverUrl+"historicLists", {
             method: "GET", //ou POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -192,7 +192,7 @@ class MarketMethod extends TokenMethod {
      * @returns 
      */
     async getHistoricList(address_market:string,list_id:number){
-        return fetch("http://localhost:8080/getHistoricList", {
+        return fetch(this.serverUrl+"getHistoricList", {
             method: "GET", //ou POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
