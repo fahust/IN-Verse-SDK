@@ -67,9 +67,7 @@ function App(props: ObjectProps) {
     }
 
     return (
-        <div>
-            
-            <Container>
+            <Form>
                 <h1>Complete informations</h1>
                 <p>Specify the main characteristics of your collection. These datas will help to construct your NFT smart contract and define the high-level characteristics of your collection</p>
 
@@ -128,19 +126,19 @@ function App(props: ObjectProps) {
                 
                 <Row style={{marginTop:20}}>
                     <Col>
-                        <Form.Group controlId="formBasicPassword">
+                        <Form.Group controlId="formName">
                             <Form.Label >Name of the collection *</Form.Label>
                             <Form.Control required placeholder="Cool cats" value={Name} onChange={e => setName(e.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="formBasicPassword">
+                        <Form.Group controlId="formSymbol">
                             <Form.Label>Symbol of the collection *</Form.Label>
                             <Form.Control required placeholder="Symbol" value={Symbole} onChange={e => setSymbole(e.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="formBasicPassword">
+                        <Form.Group controlId="formAmount">
                             <Form.Label>Amount of NFTs in the collection *</Form.Label>
                             <Form.Control required type="number" placeholder="30" value={Amount} onChange={e => setAmount(parseInt(e.target.value))}/>
                         </Form.Group>
@@ -156,13 +154,13 @@ function App(props: ObjectProps) {
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="formMinter">
+                        <Form.Group controlId="formPauser">
                             <Form.Label>Pauser</Form.Label>
                             <Form.Control placeholder="0x0..." value={Pauser} onChange={e => setPauser(e.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="formMinter">
+                        <Form.Group controlId="formBurner">
                             <Form.Label>Burner</Form.Label>
                             <Form.Control placeholder="0x0..." value={Burner} onChange={e => setBurner(e.target.value)}/>
                         </Form.Group>
@@ -172,30 +170,30 @@ function App(props: ObjectProps) {
                 
                 <Row style={{marginTop:20}}>
                     <Col>
-                        <Form.Group controlId="formMinter">
+                        <Form.Group controlId="formLink">
                             <Form.Label>External Link</Form.Label>
-                            <Form.Control  placeholder="https://openseacreatures.io" value={Minter} onChange={e => setExternalLink(e.target.value)}/>
+                            <Form.Control  placeholder="https://openseacreatures.io" value={External_link} onChange={e => setExternalLink(e.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="formMinter">
+                        <Form.Group controlId="formSeller">
                             <Form.Label>Seller fee basis points</Form.Label>
-                            <Form.Control placeholder="100, # Indicates a 1% seller fee" value={Pauser} onChange={e => setSellerFeeBasisPoints(e.target.value)}/>
+                            <Form.Control placeholder="100, # Indicates a 1% seller fee" value={Seller_fee_basis_points} onChange={e => setSellerFeeBasisPoints(e.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="formMinter">
+                        <Form.Group controlId="formRecipient">
                             <Form.Label>Recipient</Form.Label>
-                            <Form.Control placeholder="0x0..." value={Burner} onChange={e => setRecipient(e.target.value)}/>
+                            <Form.Control placeholder="0x0..." value={Fee_recipient} onChange={e => setRecipient(e.target.value)}/>
                         </Form.Group>
                     </Col>
                 </Row>
 
                 <Row style={{marginTop:20}}>
                     <Col sm={8}>
-                        <Form.Group controlId="formMinter">
+                        <Form.Group controlId="formDesctiption">
                             <Form.Label>Description</Form.Label>
-                            <Form.Control as="textarea" style={{ height: '150px' }} placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..." value={Description} onChange={e => setDescription(e.target.value)}/>
+                            <Form.Control as="textarea" style={{ height: '150px' }} placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..." value={Description} required onChange={e => setDescription(e.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col sm={4}>
@@ -212,8 +210,7 @@ function App(props: ObjectProps) {
                 <Button onClick={()=>createCollection(props)} style={{marginTop:20}} variant="primary" type="submit">
                     Submit
                 </Button>
-            </Container>
-        </div>
+            </Form>
     )
 
 }
