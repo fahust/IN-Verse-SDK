@@ -5,6 +5,7 @@ import { ContractFactory } from 'ethers';
 import Collection from "./Interface/Collection";
 
 import MarketMethod from "./MarketMethod";
+import Fetch from './Fetch';
 
 class Factory extends MarketMethod {
 
@@ -24,7 +25,8 @@ class Factory extends MarketMethod {
                 let signer = this.walletWithProvider?this.walletWithProvider:await this.provider.getSigner();
                 let factoryAuction = new ContractFactory(contractMarketPlace.abi, contractMarketPlace.bytecode, signer);
                 return factoryAuction.deploy(this.addressLogger).then((auctionContract)=>{
-                    fetch(this.serverUrl+"addMarketPlaceAddress", {
+                    Fetch("addMarketPlaceAddress","POST",JSON.stringify({addressAuctionContract:auctionContract.address,myAddress:this.getMySignedAddress()}),this.JWT);
+                    /*fetch(this.serverUrl+"addMarketPlaceAddress", {
                         method: "POST", //ou POST, PUT, DELETE, etc.
                         headers: {
                         "Content-Type": "text/plain;charset=UTF-8" 
@@ -34,7 +36,7 @@ class Factory extends MarketMethod {
                         return res;
                     }).catch((err)=>{
                         return err
-                    });
+                    });*/
                     return auctionContract.address
                 }).catch((error:any)=>{
                     return {error};
@@ -63,7 +65,8 @@ class Factory extends MarketMethod {
                 let signer = this.walletWithProvider?this.walletWithProvider:await this.provider.getSigner();
                 let factoryToken = new ContractFactory(contractToken.abi, contractToken.bytecode, signer);
                 return factoryToken.deploy(_name, _symbol, _initBaseURI,lazyMint,this.addressLogger,maxMint).then((tokenContract:any)=>{
-                    fetch(this.serverUrl+"addTokenAddress", {
+                    Fetch("addTokenAddress","POST",JSON.stringify({addressTokenContract:tokenContract.address,myAddress:this.getMySignedAddress(),metaDataPlatform:metaDataPlatform,collectionDatas:collectionDatas}),this.JWT);
+                    /*fetch(this.serverUrl+"addTokenAddress", {
                         method: "POST", //ou POST, PUT, DELETE, etc.
                         headers: {
                         "Content-Type": "text/plain;charset=UTF-8" 
@@ -73,7 +76,7 @@ class Factory extends MarketMethod {
                         return res;
                     }).catch((err)=>{
                         return err
-                    });
+                    });*/
                     return tokenContract.address;
                 }).catch((error:any)=>{
                     return {error};

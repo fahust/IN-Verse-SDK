@@ -39,6 +39,7 @@ class Utils {
 
     addressLogger:string;
     serverUrl:string;
+    JWT:string;
 
     constructor(){
         this.contract;
@@ -54,6 +55,7 @@ class Utils {
         this.userId;
         this.addressLogger = "0x5544C8c946dD7157adE750A4E3F3115a4975ec5a";
         this.serverUrl = "http://localhost:8080/";
+        this.JWT = "";
     }
 
     setAddressContract(_address:string){

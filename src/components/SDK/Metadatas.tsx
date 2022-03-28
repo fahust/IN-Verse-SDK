@@ -6,6 +6,7 @@ import Creators from "./Interface/Creators"
 import Trait from "./Interface/Trait"
 import MetaTokens from "./Interface/MetaTokens"
 import Utils from "./Utils"
+import Fetch from './Fetch';
 
 
 
@@ -164,8 +165,9 @@ class MetaDatas extends Utils {
         return opensea;
     }
 
-    sendMetaTokensToServer(metaTokens:MetaTokens,address_collection:string){
-        fetch(this.serverUrl+"setMetaTokens", {
+    async sendMetaTokensToServer(metaTokens:MetaTokens,address_collection:string){
+        return await Fetch("setMetaTokens","POST",JSON.stringify({metaTokens:metaTokens,myAddress:this.getMySignedAddress(),address_collection:address_collection}),this.JWT);
+        /*fetch(this.serverUrl+"setMetaTokens", {
             method: "POST", //ou POST, PUT, DELETE, etc.
             headers: {
             "Content-Type": "text/plain;charset=UTF-8" 
@@ -175,7 +177,7 @@ class MetaDatas extends Utils {
             return res;
         }).catch((err)=>{
             return err
-        });
+        });*/
     }
 
 

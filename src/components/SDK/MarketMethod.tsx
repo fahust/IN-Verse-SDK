@@ -1,6 +1,7 @@
 import TokenMethod from "./TokenMethod";
 import { ethers } from 'ethers';
 import List from "./Interface/List";
+import Fetch from './Fetch';
 
 
 class MarketMethod extends TokenMethod {
@@ -14,7 +15,8 @@ class MarketMethod extends TokenMethod {
      * @returns returns array of marketplace addresses created previously
      */
     async getMyMarketPlaces(){
-        return fetch(this.serverUrl+"getMyMarketPlaces", {
+        return await Fetch("getMyMarketPlaces","GET",JSON.stringify({myAddress:this.getMySignedAddress()}),this.JWT);
+        /*return fetch(this.serverUrl+"getMyMarketPlaces", {
             method: "GET", //ou POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -24,7 +26,7 @@ class MarketMethod extends TokenMethod {
             return res;
         }).catch((err)=>{
             return err
-        });
+        });*/
     }
 
     /**
@@ -36,7 +38,8 @@ class MarketMethod extends TokenMethod {
         if(this.connectedWeb3 == true){
             let contract = new ethers.Contract(address_market,this.getAbiMarketPlace().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let createList = await contract.createList(list)
-            fetch(this.serverUrl+"createList", {
+            await Fetch("createList","GET",JSON.stringify({address_market:address_market,list:list}),this.JWT);
+            /*fetch(this.serverUrl+"createList", {
                 method: "GET", //ou POST, PUT, DELETE, etc.
                 headers: {
                     "Content-Type": "text/plain;charset=UTF-8" 
@@ -46,7 +49,7 @@ class MarketMethod extends TokenMethod {
                 return res;
             }).catch((err)=>{
                 return err
-            });
+            });*/
             return createList;
         }else{
             this.connectWeb3()
@@ -62,7 +65,8 @@ class MarketMethod extends TokenMethod {
         if(this.connectedWeb3 == true){
             let contract = new ethers.Contract(address_market,this.getAbiMarketPlace().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let updateList = await contract.updateList(list)
-            fetch(this.serverUrl+"updateList", {
+            await Fetch("updateList","GET",JSON.stringify({address_market:address_market,list:list}),this.JWT);
+            /*fetch(this.serverUrl+"updateList", {
                 method: "GET", //ou POST, PUT, DELETE, etc.
                 headers: {
                     "Content-Type": "text/plain;charset=UTF-8" 
@@ -72,7 +76,7 @@ class MarketMethod extends TokenMethod {
                 return res;
             }).catch((err)=>{
                 return err
-            });
+            });*/
             return updateList;
         }else{
             this.connectWeb3()
@@ -102,7 +106,8 @@ class MarketMethod extends TokenMethod {
         if(this.connectedWeb3 == true){
             let contract = new ethers.Contract(address_market,this.getAbiMarketPlace().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let endAuction = await contract.endAuction(list_id)
-            fetch(this.serverUrl+"endAuction", {
+            await Fetch("endAuction","GET",JSON.stringify({address_market:address_market,list_id:list_id}),this.JWT);
+            /*fetch(this.serverUrl+"endAuction", {
                 method: "GET", //ou POST, PUT, DELETE, etc.
                 headers: {
                     "Content-Type": "text/plain;charset=UTF-8" 
@@ -112,7 +117,7 @@ class MarketMethod extends TokenMethod {
                 return res;
             }).catch((err)=>{
                 return err
-            });
+            });*/
             return endAuction;
         }else{
             this.connectWeb3()
@@ -153,7 +158,8 @@ class MarketMethod extends TokenMethod {
      * @returns 
      */
     async getLists(address_market:string){
-        return fetch(this.serverUrl+"getLists", {
+        return await Fetch("getLists","GET",JSON.stringify({address_market:address_market}),this.JWT);
+        /*return fetch(this.serverUrl+"getLists", {
             method: "GET", //ou POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -163,7 +169,7 @@ class MarketMethod extends TokenMethod {
             return res;
         }).catch((err)=>{
             return err
-        });
+        });*/
     }
 
     /**
@@ -172,7 +178,8 @@ class MarketMethod extends TokenMethod {
      * @returns 
      */
     async getHistoricLists(address_market:string){
-        return fetch(this.serverUrl+"historicLists", {
+        return await Fetch("historicLists","GET",JSON.stringify({address_market:address_market}),this.JWT);
+        /*return fetch(this.serverUrl+"historicLists", {
             method: "GET", //ou POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -182,7 +189,7 @@ class MarketMethod extends TokenMethod {
             return res;
         }).catch((err)=>{
             return err
-        });
+        });*/
     }
 
     /**
@@ -192,7 +199,8 @@ class MarketMethod extends TokenMethod {
      * @returns 
      */
     async getHistoricList(address_market:string,list_id:number){
-        return fetch(this.serverUrl+"getHistoricList", {
+        return await Fetch("historicList","GET",JSON.stringify({address_market:address_market,list_id:list_id}),this.JWT);
+        /*return fetch(this.serverUrl+"getHistoricList", {
             method: "GET", //ou POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -202,7 +210,7 @@ class MarketMethod extends TokenMethod {
             return res;
         }).catch((err)=>{
             return err
-        });
+        });*/
     }
 
     /**

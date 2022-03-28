@@ -1,17 +1,14 @@
 
 import Factory from "./Factory";
 import { ethers } from 'ethers';
+
 declare let window: any;
 
-
 class InVerseSdk extends Factory {
-
 
     constructor(){
         super();
     }
-
-
 
     /**
      * DYNAMIC METHOD
