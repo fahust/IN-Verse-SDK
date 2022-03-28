@@ -16,7 +16,7 @@ function App(props: ObjectProps) {
 
     let collection = props.SDK.getCollection(props.addressCollection)
 
-    return (
+    return ( 
         <div>
             <Card style={{ width: props.width?props.width:'18rem' }}>
                 <Card.Img variant="top" src={collection.uri} />

@@ -46,7 +46,7 @@ class TokenMethod extends Connection {
      */
     async getMyCollections(){
         if(this.connectedWeb3){
-            return fetch("http://localhost:8080/getMyCollections", {
+            return fetch(this.serverUrl+"getMyCollections", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -68,7 +68,7 @@ class TokenMethod extends Connection {
      * @returns return an array of metadata collection (token) from API
      */
     async getCollection(address_contract_token:string){
-        return fetch("http://localhost:8080/getCollection", {
+        return fetch(this.serverUrl+"getCollection", {
             method: "POST", //ou POST, PUT, DELETE, etc.
             headers: {
             "Content-Type": "text/plain;charset=UTF-8" 
@@ -88,7 +88,7 @@ class TokenMethod extends Connection {
      * @returns an object of metada contains token
      */
     async getNFTMetada(address_contract_token:string,token_id:number){
-        return fetch("http://localhost:8080/getNFTMetada", {
+        return fetch(this.serverUrl+"getNFTMetada", {
             method: "POST", //ou POST, PUT, DELETE, etc.
             headers: {
             "Content-Type": "text/plain;charset=UTF-8" 
@@ -111,7 +111,7 @@ class TokenMethod extends Connection {
         if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.mint(number_to_mint)
-            fetch("http://localhost:8080/mint", {
+            fetch(this.serverUrl+"mint", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -138,7 +138,7 @@ class TokenMethod extends Connection {
         if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.setContractURI(uri)
-            fetch("http://localhost:8080/setContractURI", {
+            fetch(this.serverUrl+"setContractURI", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -165,7 +165,7 @@ class TokenMethod extends Connection {
         if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.setBaseURI(uri)
-            fetch("http://localhost:8080/setBaseURI", {
+            fetch(this.serverUrl+"setBaseURI", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -192,7 +192,7 @@ class TokenMethod extends Connection {
         if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.burn(token_id)
-            fetch("http://localhost:8080/burn", {
+            fetch(this.serverUrl+"burn", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
