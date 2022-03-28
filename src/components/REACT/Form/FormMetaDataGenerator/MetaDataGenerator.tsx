@@ -89,17 +89,14 @@ function App(props: ObjectProps) {
         
     }
 
-    return (
-        <div>
-            
-            <Container>
+    return (<Form>
                 <h1>Complete informations</h1>
                 <p>Specify the main characteristics of your collection. These datas will help to construct your NFT smart contract and define the high-level characteristics of your collection</p>
 
                 
                 <Row>
                     <Col>
-                        <Form.Group controlId="formBasicPassword">
+                        <Form.Group controlId="formQuantity">
                             <Form.Label>Quantity *</Form.Label>
                             <Form.Control required placeholder="Quantity" value={Quantity} onChange={e => setQuantity(e.target.value)}/>
                         </Form.Group>
@@ -119,13 +116,13 @@ function App(props: ObjectProps) {
                 
                 <Row style={{marginTop:20}}>
                     <Col>
-                        <Form.Group controlId="formBasicPassword">
+                        <Form.Group controlId="formName">
                             <Form.Label >Name of the collection *</Form.Label>
                             <Form.Control required placeholder="Cool cats" value={Name} onChange={e => setName(e.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="formBasicPassword">
+                        <Form.Group controlId="formSymbol">
                             <Form.Label>Symbol *</Form.Label>
                             <Form.Control required placeholder="Symbol" value={Symbole} onChange={e => setSymbole(e.target.value)}/>
                         </Form.Group>
@@ -137,19 +134,19 @@ function App(props: ObjectProps) {
                 
                 <Row style={{marginTop:20}}>
                     <Col>
-                        <Form.Group controlId="formMinter">
+                        <Form.Group controlId="formCategory">
                             <Form.Label>Category</Form.Label>
                             <Form.Control  placeholder="0x0..." value={Category} onChange={e => setCategory(e.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="formMinter">
+                        <Form.Group controlId="formEdition">
                             <Form.Label>Edition</Form.Label>
                             <Form.Control placeholder="0x0..." value={Edition} onChange={e => setEdition(e.target.value)}/>
                         </Form.Group>
                     </Col>
                     <Col>
-                        <Form.Group controlId="formMinter">
+                        <Form.Group controlId="formFamily">
                             <Form.Label>Family</Form.Label>
                             <Form.Control placeholder="0x0..." value={Family} onChange={e => setFamily(e.target.value)}/>
                         </Form.Group>
@@ -164,13 +161,13 @@ function App(props: ObjectProps) {
                     ArrayCreator!.map((creator,key)=>{
                         return <Row key={key} style={{marginTop:20}}>
                         <Col>
-                            <Form.Group controlId="formMinter">
+                            <Form.Group controlId="formAddress">
                                 <Form.Label>Address</Form.Label>
                                 <Form.Control  placeholder="https://openseacreatures.io" value={creator.address} onChange={e => setCreatorAddress(e.target.value,key)}/>
                             </Form.Group>
                         </Col>
                         <Col>
-                            <Form.Group controlId="formMinter">
+                            <Form.Group controlId="formShare">
                                 <Form.Label>Share</Form.Label>
                                 <Form.Control placeholder="100, # Indicates a 1% seller fee" value={creator.share} onChange={e => setCreatorShare(e.target.value,key)}/>
                             </Form.Group>
@@ -183,7 +180,7 @@ function App(props: ObjectProps) {
 
                 <Row>
                     <Col>
-                        <Form.Group controlId="formMinter">
+                        <Form.Group controlId="formTrait">
                             <Form.Label>New Trait</Form.Label>
                             <Form.Control  placeholder="face/body/arms" value={TraitName} onChange={e => setTraitName(e.target.value)}/>
                         </Form.Group>
@@ -234,7 +231,7 @@ function App(props: ObjectProps) {
 
                 <Row style={{marginTop:20}}>
                     <Col sm={8}>
-                        <Form.Group controlId="formMinter">
+                        <Form.Group controlId="formDescription">
                             <Form.Label>Description</Form.Label>
                             <Form.Control as="textarea" style={{ height: '150px' }} placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua..." value={Description} onChange={e => setDescription(e.target.value)}/>
                         </Form.Group>
@@ -243,8 +240,7 @@ function App(props: ObjectProps) {
                 <Button onClick={()=>createCollection(props)} style={{marginTop:20}} variant="primary" type="submit">
                     Submit
                 </Button>
-            </Container>
-        </div>
+            </Form>
     )
 
 }

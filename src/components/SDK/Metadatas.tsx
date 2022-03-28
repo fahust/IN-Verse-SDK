@@ -1,6 +1,6 @@
-const axios = require('axios');
+/*const axios = require('axios');
 const fs = require('fs');
-const FormData = require('form-data');
+const FormData = require('form-data');*/
 
 import Creators from "./Interface/Creators"
 import Trait from "./Interface/Trait"
@@ -179,7 +179,7 @@ class MetaDatas extends Utils {
     }
 
 
-
+/*
     pinFileToIPFS = (pinataApiKey:string, pinataSecretApiKey:string) => {
         const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
 
@@ -230,7 +230,7 @@ class MetaDatas extends Utils {
             .catch(function (error:any) {
                 //handle error here
             });
-    };
+    };*/
 
 }
 
