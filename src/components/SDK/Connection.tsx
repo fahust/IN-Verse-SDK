@@ -1,9 +1,8 @@
 
 import Web3Modal from "web3modal";
 import { ethers } from 'ethers';
-import contractMarketPlace from "../ABI/MarketPlaceAbi.json";
-import contractToken from "../ABI/INERC721Abi.json";
 import Analytics from "./Analytics";
+import Fetch from './Fetch';
 
 const providerOptions = {
     /* See Provider Options Section */
@@ -84,8 +83,9 @@ class Connection extends Analytics {
      * @param ObjectAccount {myaddress,username,password,...}
      * @returns 
      */
-    updateMyInVerseAccount(ObjectAccount:Object){
-        return fetch(this.serverUrl+"updateAccount", {
+    async updateMyInVerseAccount(ObjectAccount:Object){
+        return await Fetch("updateAccount","POST",JSON.stringify(ObjectAccount),this.JWT);
+        /*return fetch(this.serverUrl+"updateAccount", {
             method: "POST", //ou POST, PUT, DELETE, etc.
             headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -95,7 +95,7 @@ class Connection extends Analytics {
             return res;
         }).catch((err)=>{
             return err
-        });
+        });*/
     }
 
     async connectWeb3WithNode (privateKey:string) {

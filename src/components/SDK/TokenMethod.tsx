@@ -1,5 +1,6 @@
 import Connection from "./Connection";
 import { ethers } from 'ethers';
+import Fetch from './Fetch';
 
 class TokenMethod extends Connection {
 
@@ -46,7 +47,8 @@ class TokenMethod extends Connection {
      */
     async getMyCollections(){
         if(this.connectedWeb3){
-            return fetch(this.serverUrl+"getMyCollections", {
+            return await Fetch("getMyCollections","POST",JSON.stringify({myAddress:this.getMySignedAddress()}),this.JWT);
+            /*return fetch(this.serverUrl+"getMyCollections", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -56,7 +58,7 @@ class TokenMethod extends Connection {
                 return res;
             }).catch((err)=>{
                 return err
-            });
+            });*/
         }else{
             this.connectWeb3()
         }
@@ -68,7 +70,8 @@ class TokenMethod extends Connection {
      * @returns return an array of metadata collection (token) from API
      */
     async getCollection(address_contract_token:string){
-        return fetch(this.serverUrl+"getCollection", {
+        return await Fetch("getCollection","POST",JSON.stringify({address_contract_token:address_contract_token}),this.JWT);
+        /*return fetch(this.serverUrl+"getCollection", {
             method: "POST", //ou POST, PUT, DELETE, etc.
             headers: {
             "Content-Type": "text/plain;charset=UTF-8" 
@@ -78,7 +81,7 @@ class TokenMethod extends Connection {
             return res;
         }).catch((err)=>{
             return err
-        });
+        });*/
     }
     
     /**
@@ -88,7 +91,8 @@ class TokenMethod extends Connection {
      * @returns an object of metada contains token
      */
     async getNFTMetada(address_contract_token:string,token_id:number){
-        return fetch(this.serverUrl+"getNFTMetada", {
+        return await Fetch("getNFTMetada","POST",JSON.stringify({address_contract_token:address_contract_token,token_id:token_id}),this.JWT);
+        /*return fetch(this.serverUrl+"getNFTMetada", {
             method: "POST", //ou POST, PUT, DELETE, etc.
             headers: {
             "Content-Type": "text/plain;charset=UTF-8" 
@@ -98,7 +102,7 @@ class TokenMethod extends Connection {
             return res;
         }).catch((err)=>{
             return err
-        });
+        });*/
     }
     
     /**
@@ -108,7 +112,8 @@ class TokenMethod extends Connection {
      * @returns an array object of metada contains token
      */
     async getNFTSMetadas(address_contract_token:string){
-        return fetch(this.serverUrl+"getNFTSMetadas", {
+        return await Fetch("getNFTSMetadas","POST",JSON.stringify({address_contract_token:address_contract_token}),this.JWT);
+        /*return fetch(this.serverUrl+"getNFTSMetadas", {
             method: "POST", //ou POST, PUT, DELETE, etc.
             headers: {
             "Content-Type": "text/plain;charset=UTF-8" 
@@ -118,7 +123,7 @@ class TokenMethod extends Connection {
             return res;
         }).catch((err)=>{
             return err
-        });
+        });*/
     }
 
     /**
@@ -131,7 +136,8 @@ class TokenMethod extends Connection {
         if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.mint(number_to_mint)
-            fetch(this.serverUrl+"mint", {
+            await Fetch("mint","POST",JSON.stringify({addressTokenContract:address_contract_token,myAddress:this.getMySignedAddress(),number_to_mint:number_to_mint}),this.JWT);
+            /*fetch(this.serverUrl+"mint", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -141,7 +147,7 @@ class TokenMethod extends Connection {
                 return res;
             }).catch((err)=>{
                 return err
-            });
+            });*/
             return result;
         }else{
             this.connectWeb3()
@@ -158,7 +164,8 @@ class TokenMethod extends Connection {
         if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.setContractURI(uri)
-            fetch(this.serverUrl+"setContractURI", {
+            await Fetch("setContractURI","POST",JSON.stringify({addressTokenContract:address_contract_token,myAddress:this.getMySignedAddress(),uri:uri}),this.JWT);
+            /*fetch(this.serverUrl+"setContractURI", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -168,7 +175,7 @@ class TokenMethod extends Connection {
                 return res;
             }).catch((err)=>{
                 return err
-            });
+            });*/
             return result;
         }else{
             this.connectWeb3()
@@ -185,7 +192,8 @@ class TokenMethod extends Connection {
         if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.setBaseURI(uri)
-            fetch(this.serverUrl+"setBaseURI", {
+            await Fetch("setBaseURI","POST",JSON.stringify({addressTokenContract:address_contract_token,myAddress:this.getMySignedAddress(),uri:uri}),this.JWT);
+            /*fetch(this.serverUrl+"setBaseURI", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -195,7 +203,7 @@ class TokenMethod extends Connection {
                 return res;
             }).catch((err)=>{
                 return err
-            });
+            });*/
             return result;
         }else{
             this.connectWeb3()
@@ -212,7 +220,8 @@ class TokenMethod extends Connection {
         if(this.connectedWeb3){
             let tokenContract = new ethers.Contract(address_contract_token,this.getAbiToken().abi,this.walletWithProvider?this.walletWithProvider:this.signer);
             let result = await tokenContract.burn(token_id)
-            fetch(this.serverUrl+"burn", {
+            await Fetch("burn","POST",JSON.stringify({addressTokenContract:address_contract_token,myAddress:this.getMySignedAddress(),token_id:token_id}),this.JWT);
+            /*fetch(this.serverUrl+"burn", {
                 method: "POST", //ou POST, PUT, DELETE, etc.
                 headers: {
                 "Content-Type": "text/plain;charset=UTF-8" 
@@ -222,7 +231,7 @@ class TokenMethod extends Connection {
                 return res;
             }).catch((err)=>{
                 return err
-            });
+            });*/
             return result;
         }else{
             this.connectWeb3()
