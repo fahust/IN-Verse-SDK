@@ -1,21 +1,17 @@
-const axios = require('axios');
+/*const axios = require('axios');
 const fs = require('fs');
-const FormData = require('form-data');
+const FormData = require('form-data');*/
+
+import Creators from "./Interface/Creators"
+import Trait from "./Interface/Trait"
+import MetaTokens from "./Interface/MetaTokens"
+import Utils from "./Utils"
 
 
-interface Creators {
-    address:string,
-    share:number
-}
 
 interface Collection {
     collectionName:string,
     collectionFamily:String
-}
-
-interface Trait {
-    trait_type:string,
-    value:string
 }
 
 interface Token {
@@ -36,10 +32,11 @@ interface Token {
     attributes:Array<Trait>
 }
 
-class MetaDatas {
+class MetaDatas extends Utils {
     arrayOfMetadatas:Array<Token>;
     
     constructor(){
+        super();
         this.arrayOfMetadatas;
     }
 
@@ -137,59 +134,103 @@ class MetaDatas {
         }
     }
 
-
-
-    pinFileToIPFS = (pinataApiKey:string, pinataSecretApiKey:string) => {
-    const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
-
-    //we gather a local file for this example, but any valid readStream source will work here.
-    let data = new FormData();
-    data.append('file', fs.createReadStream('./yourfile.png'));
-
-    //You'll need to make sure that the metadata is in the form of a JSON object that's been convered to a string
-    //metadata is optional
-    const metadata = JSON.stringify({
-        name: 'testname',
-        keyvalues: {
-            exampleKey: 'exampleValue'
+    /**
+     * 
+     * @param name 
+     * @param description 
+     * @param image 
+     * @param external_link 
+     * @param seller_fee_basis_points 
+     * @param fee_recipient 
+     * {
+            "name": "OpenSea Creatures",
+            "description": "OpenSea Creatures are adorable aquatic beings primarily for demonstrating what can be done using the OpenSea platform. Adopt one today to try out all the OpenSea buying, selling, and bidding feature set.",
+            "image": "https://openseacreatures.io/image.png",
+            "external_link": "https://openseacreatures.io",
+            "seller_fee_basis_points": 100, # Indicates a 1% seller fee.
+            "fee_recipient": "0xA97F337c39cccE66adfeCB2BF99C1DdC54C2D721" # Where seller fees will be paid to.
         }
-    });
-    data.append('pinataMetadata', metadata);
+     */
+    platformGenerator(name:string,description:string,image:string,external_link:string,seller_fee_basis_points:number,fee_recipient:string){
 
-    //pinataOptions are optional
-    const pinataOptions = JSON.stringify({
-        cidVersion: 0,
-        customPinPolicy: {
-            regions: [
-                {
-                    id: 'FRA1',
-                    desiredReplicationCount: 1
-                },
-                {
-                    id: 'NYC1',
-                    desiredReplicationCount: 2
-                }
-            ]
+        let opensea = {
+            name:name,
+            description:description,
+            image:image,
+            external_link:external_link,
+            seller_fee_basis_points:seller_fee_basis_points,
+            fee_recipient:fee_recipient
         }
-    });
-    data.append('pinataOptions', pinataOptions);
+        return opensea;
+    }
 
-    return axios
-        .post(url, data, {
-            maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
+    sendMetaTokensToServer(metaTokens:MetaTokens,address_collection:string){
+        fetch(this.serverUrl+"setMetaTokens", {
+            method: "POST", //ou POST, PUT, DELETE, etc.
             headers: {
-                'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
-                pinata_api_key: pinataApiKey,
-                pinata_secret_api_key: pinataSecretApiKey
-            }
-        })
-        .then(function (response:any) {
-            //handle response here
-        })
-        .catch(function (error:any) {
-            //handle error here
+            "Content-Type": "text/plain;charset=UTF-8" 
+            },
+            body: JSON.stringify({metaTokens:metaTokens,myAddress:this.getMySignedAddress(),address_collection:address_collection}), 
+        }).then((res)=>{
+            return res;
+        }).catch((err)=>{
+            return err
         });
-};
+    }
+
+
+/*
+    pinFileToIPFS = (pinataApiKey:string, pinataSecretApiKey:string) => {
+        const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+
+        //we gather a local file for this example, but any valid readStream source will work here.
+        let data = new FormData();
+        data.append('file', fs.createReadStream('./yourfile.png'));
+
+        //You'll need to make sure that the metadata is in the form of a JSON object that's been convered to a string
+        //metadata is optional
+        const metadata = JSON.stringify({
+            name: 'testname',
+            keyvalues: {
+                exampleKey: 'exampleValue'
+            }
+        });
+        data.append('pinataMetadata', metadata);
+
+        //pinataOptions are optional
+        const pinataOptions = JSON.stringify({
+            cidVersion: 0,
+            customPinPolicy: {
+                regions: [
+                    {
+                        id: 'FRA1',
+                        desiredReplicationCount: 1
+                    },
+                    {
+                        id: 'NYC1',
+                        desiredReplicationCount: 2
+                    }
+                ]
+            }
+        });
+        data.append('pinataOptions', pinataOptions);
+
+        return axios
+            .post(url, data, {
+                maxBodyLength: 'Infinity', //this is needed to prevent axios from erroring out with large files
+                headers: {
+                    'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+                    pinata_api_key: pinataApiKey,
+                    pinata_secret_api_key: pinataSecretApiKey
+                }
+            })
+            .then(function (response:any) {
+                //handle response here
+            })
+            .catch(function (error:any) {
+                //handle error here
+            });
+    };*/
 
 }
 

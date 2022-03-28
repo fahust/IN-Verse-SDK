@@ -9,25 +9,28 @@ export interface ObjectProps {
     style?: React.CSSProperties;
     SDK:any;
     addressCollection:string;
+    token_id:number;
     width:string;
 }
 
 function App(props: ObjectProps) {
 
-    let collection = props.SDK.getCollection(props.addressCollection)
+    let tokens = props.SDK.getNFTSMetadas(props.addressCollection)
 
-    return (
-        <div>
+    return ( 
+        tokens.map((token:any)=>{
+            return <div>
             <Card style={{ width: props.width?props.width:'18rem' }}>
-                <Card.Img variant="top" src={collection.uri} />
+                <Card.Img variant="top" src={token.uri} />
                 <Card.Body>
-                    <Card.Title>{collection.title}</Card.Title>
+                    <Card.Title>{token.title}</Card.Title>
                     <Card.Text>
-                    {collection.description}
+                    {token.description}
                     </Card.Text>
                 </Card.Body>
             </Card>
         </div>
+        })
     )
 
 }
